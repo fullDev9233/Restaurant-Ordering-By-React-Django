@@ -55,14 +55,14 @@ class LoginForm extends React.Component {
                             <div className="input-field col s12">
                                 <i className="material-icons prefix">account_circle</i>
                                 <input value={this.state.username} onChange={this.handleChange} className="validate" id="username" type="text"/>
-                                <label for="username" data-error="wrong" data-success="right">username</label>
+                                <label htmlFor="username" data-error="wrong" data-success="right">username</label>
                             </div>
                             </div>
                             <div className="row">
                             <div className="input-field col s12">
                                 <i className="material-icons prefix">lock_outline</i>
                                 <input value={this.state.password} onChange={this.handleChange} id="password" data-length="10" type="password"/>
-                                <label for="password">Password</label>
+                                <label htmlFor="password">Password</label>
                             </div>
                             </div>
                             <div className="row">

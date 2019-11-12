@@ -21,13 +21,13 @@ class DashboardLayout extends Component {
                 <nav className="white">
                     <div className="container">
                     <div className="nav-wrapper">
-                        <a href="#" className="brand-logo"><i className="black-text black-icon material-icons">fastfood</i><b className="black-text">chimilier</b></a>
-                        <a href="#" className="sidenav-trigger" data-target="mobile-nav">
+                        <a href="/" className="brand-logo"><i className="black-text black-icon material-icons">thumb_up</i><b className="black-text">chickenUp</b></a>
+                        <a href="/" className="sidenav-trigger" data-target="mobile-nav">
                         <i className="material-icons black-text black-icon">menu</i>
                         </a>
                         <ul className="right hide-on-med-and-down">
                             <li>
-                            <a className="black-text" href="#home"><b>Home</b></a>
+                            <a className="black-text" href="/"><b>Home</b></a>
                             </li>
                             <li>
                             <a className="black-text" href="#home"><b>mypage</b></a>

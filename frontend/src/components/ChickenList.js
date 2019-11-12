@@ -2,8 +2,13 @@ import React ,{Component} from 'react'
 import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
 import './ChickenList.css'
+import StarRatings from 'react-star-ratings';
 import axios from 'axios'
 class SerachBrand extends Component{
+    state = {
+        rating: 0,
+
+    }
 
     componentDidMount() {
         axios.get('http://127.0.0.1:8000/api/')
@@ -14,6 +19,12 @@ class SerachBrand extends Component{
         })
     }
 
+    changeRating = ( newRating, name ) => {
+        this.setState({
+            rating: newRating
+
+        })
+    }
     render() {
         return (
         <div>
@@ -30,86 +41,79 @@ class SerachBrand extends Component{
                     </div>
                 </div>
             </section>
-            <section className="section section-icons grey lighten-4 center">
+ 
+
+            <section id="popular" className="section section-popular grey lighten-4">
                 <div className="container">
                     <div className="row">
-                        <div className="col s12 m4">
-                            <div className="card-panel">
-                                <img height="120"width="160" src="images/image1.jpg"/>
-                                <h4>chicken1</h4>
-                                <p>
-                                    Loeaar, isdsfp dord ist madid mdfsdfasdfo ,fsdf kcd
-                                </p>
-                            </div>
-
-                        </div>
-                        <div className="col s12 m4">
-                            <div className="card-panel">
-                                <img height="120"width="160" src="images/image1.jpg"/>
-                                <h4>chicken1</h4>
-                                <p>
-                                    Loeaar, isdsfp dord ist madid mdfsdfasdfo ,fsdf kcd
-                                </p>
-                            </div>
-
-                        </div>                         <div className="col s12 m4">
-                            <div className="card-panel">
-                                <img height="120"width="160" src="images/image1.jpg"/>
-                                <h4>chicken1</h4>
-                                <p>
-                                    Loeaar, isdsfp dord ist madid mdfsdfasdfo ,fsdf kcd
-                                </p>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
-            <section id="popular" className="section section-popular">
-                <div className="container">
-                    <div className="row">
-                        <div className="col s12 m4">
+                        <div className="col s12 m6 l4">
                             <div className="card">
-                                <div className="card-image">
+                                <div className="card-image background">
                                     <img height="280"src="images/image2.jpg" alt=""/>
-                                    <span className="card-title"> Canunu, mxtoc</span>
                                     
                                 </div>
+                                
                                 <div className="card-content">
+                                    <h5><b>chicken name</b></h5>
                                     lorem, ipsum dolor sit amet
                                     consectete adisppring elit, lofddf
                                     ea deserunt officai, dicat sint 
-                                    rererereccd
+                                    rererereccd<br></br>
+                                    <StarRatings
+                                    rating={this.state.rating}
+                                    starRatedColor="blue"
+                                    changeRating={this.changeRating}
+                                    numberOfStars={5}
+                                    starDimension="20px"
+                                    starSpacing="2px"
+                                    name='rating'
+                                    />
                                 </div>
                             </div>
                         </div>
-                        <div className="col s12 m4">
+                        <div className="col s12 m6 l4">
                             <div className="card">
                                 <div className="card-image">
                                     <img width="400" height="280" src="images/image1.jpg" alt=""/>
-                                    <span className="card-title"> Canunu, mxtoc</span>
                                 </div>
                                 <div className="card-content">
+                                     <h5><b>chicken name</b></h5>
                                     lorem, ipsum dolor sit amet
                                     consectete adisppring elit, lofddf
                                     ea deserunt officai, dicat sint 
-                                    rererereccd
+                                    rererereccd<br></br>
+                                    <StarRatings
+                                    rating={this.state.rating}
+                                    starRatedColor="blue"
+                                    changeRating={this.changeRating}
+                                    numberOfStars={5}
+                                    starDimension="20px"
+                                    starSpacing="2px"
+                                    name='rating'
+                                    />
                                 </div>
                             </div>
                         </div>
-                        <div className="col s12 m4">
+                        <div className="col s12 m6 l4">
                             <div className="card">
                                 <div className="card-image">
                                     <img height="280" src="images/image2.jpg" alt=""/>
-                                    <span className="card-title"> Canunu, mxtoc</span>
                                 </div>
                                 <div className="card-content">
+                                      <h5><b>chicken name</b></h5>
                                     lorem, ipsum dolor sit amet
                                     consectete adisppring elit, lofddf
                                     ea deserunt officai, dicat sint 
-                                    rererereccd
+                                    rererereccd<br></br>
+                                    <StarRatings
+                                    rating={this.state.rating}
+                                    starRatedColor="blue"
+                                    changeRating={this.changeRating}
+                                    numberOfStars={5}
+                                    starDimension="20px"
+                                    starSpacing="2px"
+                                    name='rating'
+                                    />
                                     
                                 </div>
                             </div>

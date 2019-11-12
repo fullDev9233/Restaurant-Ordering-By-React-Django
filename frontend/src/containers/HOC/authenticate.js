@@ -4,14 +4,14 @@ import {withRouter} from 'react-router-dom';
 
 export default function(ComposedComponent){
 	class Authentication extends Component{
+		_isMounted = false;
+
 		componentDidMount() {
 			const {authenticated} = this.props;
-            console.log(authenticated)
 			if(!authenticated){
 				this.props.history.push('/login');
 			}else{
 				this.props.history.push('/');
-				console.log(123123)
 			}
 		}
 
