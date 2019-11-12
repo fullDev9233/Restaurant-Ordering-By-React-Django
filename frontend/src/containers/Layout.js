@@ -26,7 +26,7 @@ class CustomLayout extends React.Component {
   render(){
     return (
       <div className="navbar-fixed">
-        <nav className="yellow">
+        <nav className="white">
           <div className="container">
             <div className="nav-wrapper">
               <a href="#" className="brand-logo"><i className="black-text black-icon material-icons">fastfood</i><b className="black-text">chimilier</b></a>

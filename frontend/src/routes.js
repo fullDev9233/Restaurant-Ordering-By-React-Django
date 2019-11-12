@@ -5,6 +5,11 @@ import ArticleDetail from './containers/ArticleDetailView'
 import Login from './containers/Login'
 import Signup from './containers/Signup'
 import { connect } from 'react-redux';
+import AppRoute from './components/AppRoute'
+import CustomLayout from './containers/Layout'
+import LoginLayout from './containers/LoginLayout'
+import LoginLayoutRoute from './containers/LoginLayoutRouter'
+
 
 class Routes extends React.Component {
     componentDidMount() {
@@ -16,8 +21,8 @@ class Routes extends React.Component {
             <div>
                 <Switch>
                     <Route exact path='/' component={ArticleList} authed={this.props.currentUser}/>
-                    <Route exact path='/login' component={Login}/>
-                    <Route exact path='/signup' component={Signup}/>
+                    <LoginLayoutRoute exact path='/login' component={Login} />
+                    <Route exact path='/signup' component={Signup} />
                     <Route exact path='/articles/:articleID' component={ArticleDetail} authed={this.props.currentUser}/>
                 </Switch>
             </div>

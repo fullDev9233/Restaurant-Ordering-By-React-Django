@@ -1,23 +1,33 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Spin} from 'antd';
+import { Form, Icon, Button, Spin} from 'antd';
 import { connect } from 'react-redux';
 import { NavLink} from 'react-router-dom';
 import * as actions from '../store/actions/auth'
-
+import './Login.css'
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 class LoginForm extends React.Component {
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-          this.props.onAuth(values.username, values.password)
-      }
+    state = {
+        username: '',
+        password: ''
+    }
+
+
+  handleLogin = async() => {
+      await this.props.onAuth(this.state.username, this.state.password)
+      this.setState({
+          username: '',
+          password: '',
+      })
+      this.props.history.push('/');
+
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value
     });
-    this.props.history.push('/');
-
-  };
-
+  }
   render() {
     let errorMessage = null;
     if(this.props.error){
@@ -25,49 +35,50 @@ class LoginForm extends React.Component {
             <p>{this.props.error.message}</p>
         );
     }
-    const { getFieldDecorator } = this.props.form;
-
-
     return (
-        <div>
+        <div id="login">
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
             {errorMessage}
             {
                 this.props.loading ? 
                 (<Spin indicator={antIcon} />)
                 :
                 (
-                    <Form onSubmit={this.handleSubmit} className="login-form">
-                        <Form.Item>
-                        {getFieldDecorator('username', {
-                            rules: [{ required: true, message: 'Please input your username!' }],
-                        })(
-                            <Input
-                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            placeholder="Username"
-                            />,
-                        )}
-                        </Form.Item>
-                        <Form.Item>
-                        {getFieldDecorator('password', {
-                            rules: [{ required: true, message: 'Please input your Password!' }],
-                        })(
-                            <Input
-                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            type="password"
-                            placeholder="Password"
-                            />,
-                        )}
-                        </Form.Item>
-                        <Form.Item>
-                            <Button type="primary" htmlType="submit" style={{marginRight: '10px'}}>
-                                Login
-                            </Button>
-                            Or     
-                            <NavLink style={{marginRight: '10px'}} 
-                            to="/signup/"> signup
-                            </NavLink>
-                        </Form.Item>
-                    </Form>
+                    <div id="login-page" className="row">
+                        <div className="col s12 z-depth-6 card-panel">
+                   
+                        <form className="login-form">
+                            <div className="row">
+                            </div>
+                            <div className="row">
+                            <div className="input-field col s12">
+                                <i className="material-icons prefix">account_circle</i>
+                                <input value={this.state.username} onChange={this.handleChange} className="validate" id="username" type="text"/>
+                                <label for="username" data-error="wrong" data-success="right">username</label>
+                            </div>
+                            </div>
+                            <div className="row">
+                            <div className="input-field col s12">
+                                <i className="material-icons prefix">lock_outline</i>
+                                <input value={this.state.password} onChange={this.handleChange} id="password" data-length="10" type="password"/>
+                                <label for="password">Password</label>
+                            </div>
+                            </div>
+                            <div className="row">
+                            <div className="input-field col s12">
+                                <Button htmlType="submit" className ="btn waves-effect waves-light col s12" onClick={this.handleLogin}>Login</Button>
+                            </div>
+                            </div>
+                            <div className="row">
+                            <div className="input-field col s6 m6 l6">
+                                <p className="margin medium-small"><NavLink style={{marginRight: '10px'}} to="/signup/">Register Now!</NavLink> </p>
+                            </div>  
+                            </div>
+
+                        </form>
+                        </div>
+                    </div>
                 )
             }
       </div>

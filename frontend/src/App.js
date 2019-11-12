@@ -1,30 +1,42 @@
 import React, { Component} from 'react';
-import 'antd/dist/antd.css';
-import CustomLayout from './containers/Layout';
-import BaseRoute from './routes';
-import { BrowserRouter as Router} from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom'
 import { connect } from 'react-redux';
 import * as actions from './store/actions/auth';
-
-class App extends Component{
+import 'antd/dist/antd.css';
+import requirement from './containers/HOC/authenticate'
+/** Layouts **/  
+import LoginLayoutRoute from "./containers/layout/LoginLayoutRoute";  
+import DashboardRoute from "./containers/layout/DashLayoutRoute";  
+  
+/** Components **/  
+import LoginPage from './containers/Login'
+import Signup from './containers/Signup'  
+import ArticleListDetail from './containers/ArticleDetailView'  
+import Home from './containers/Home'  
+import ArticleListView from './containers/ArticleListView'  
+/* 
+   App 
+ */  
+class App extends Component {  
 
   componentDidMount() {
     this.props.onTryAutoSignup()
   }
 
-  render(){
-    return (
-      <div className="App">
-        <Router>
-          <CustomLayout {...this.props}>
-            <BaseRoute />
-          </CustomLayout>
-        </Router>
-      </div>
-    );
-  }
-
-}
+  render() {  
+    return (  
+      <Router>  
+        <Switch>  
+          <DashboardRoute exact path="/" component={requirement(Home)} />  
+          <LoginLayoutRoute exact path="/login" component={requirement(LoginPage)} />
+          <LoginLayoutRoute exact path="/signup" component={Signup} />  
+          <DashboardRoute exact path="/articles/:articleID" component={ArticleListView} />  
+        </Switch>  
+      </Router>  
+    );  
+  }  
+}  
+  
 
 const mapStateToProps = state => {
   return {

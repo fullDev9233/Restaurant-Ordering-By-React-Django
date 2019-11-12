@@ -50,18 +50,20 @@ import * as actions from '../store/actions/auth';
       const { getFieldDecorator } = this.props.form;
 
       return (
-        <Form onSubmit={this.handleSubmit}>
-            <Form.Item>
-            {getFieldDecorator('username', {
-                rules: [{ required: true, message: 'Please input your username!' }],
-            })(
-                <Input
-                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                placeholder="Username"
-                />,
-            )}
-            </Form.Item>
-
+        <div id="login-page" className="row">
+          <br/><br/><br/><br/><br/><br/><br/><br/>        
+          <div className="col s12 z-depth-6 card-panel">
+        <form onSubmit={this.handleSubmit}>
+                <Form.Item>
+                {getFieldDecorator('username', {
+                    rules: [{ required: true, message: 'Please input your username!' }],
+                })(
+                    <Input
+                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    placeholder="Username"
+                    />,
+                )}
+                </Form.Item>
             <Form.Item>
             {getFieldDecorator('email', {
               rules: [
@@ -119,7 +121,9 @@ import * as actions from '../store/actions/auth';
             </NavLink>
 
             </Form.Item>
-        </Form>
+        </form>
+        </div>
+        </div>
       );
     }
   }

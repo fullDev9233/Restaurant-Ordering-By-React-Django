@@ -20,7 +20,7 @@ class ArticleList extends React.Component{
 
     render() {
         return (
-            <div>
+            <div className="container">
                 <Article data={this.state.articles}/>
                 <br/>
                 <h2>Create an Article</h2>
