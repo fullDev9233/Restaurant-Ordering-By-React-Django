@@ -1,11 +1,10 @@
 import React, { Component } from 'react';  
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/auth';
 import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
 import './Layout.css'
-
 class DashboardLayout extends Component {
     componentDidMount() {
       document.addEventListener('DOMContentLoaded', function() {
@@ -27,24 +26,24 @@ class DashboardLayout extends Component {
                         </a>
                         <ul className="right hide-on-med-and-down">
                             <li>
-                            <a className="black-text" href="/"><b>Home</b></a>
+                            <Link className="black-text" to="/"><b>Home</b></Link>
                             </li>
                             <li>
-                            <a className="black-text" href="#home"><b>mypage</b></a>
+                            <Link className="black-text" to="/mypage"><b>mypage</b></Link>
                             </li>
                             <li>
-                            <a className="black-text" href="#home"><b>contact</b></a>
+                            <Link className="black-text" to="/contact"><b>contact</b></Link>
                             </li>
                             {
                               this.props.isAuthenticated ? 
                               (
                                 <li>
-                                <a className="black-text" href="/login" onClick={this.props.logout} ><b>logout</b></a>
+                                <Link className="black-text" to="/login" onClick={this.props.logout} ><b>logout</b></Link>
                                 </li>
                               ) : 
                               (
                                 <li>
-                                <a className="black-text" href="#home"><b>login</b></a>
+                                <Link className="black-text" to="#home"><b>login</b></Link>
                                 </li>
                               )
                             }
@@ -55,24 +54,24 @@ class DashboardLayout extends Component {
                 </nav>
                 <ul className="sidenav" id="mobile-nav">
                     <li>
-                    <a href="#1">Home</a>
+                    <Link to="/">Home</Link>
                     </li>
                     <li>
-                    <a href="#2">mypage</a>
+                    <Link to="/mypage">mypage</Link>
                     </li>
                     <li>
-                    <a href="#3">contact</a>
+                    <Link to="/contact">contact</Link>
                     </li>
                     {
                       this.props.isAuthenticated ? (
                         <li>
-                        <a href="#home">logout</a>
+                        <Link to="/login" onClick={this.props.logout}>logout</Link>
                         </li>
              
                       ):
                       (
                         <li>
-                        <a href="#home">login</a>
+                        <Link to="#home">login</Link>
                         </li>
                       )
                     }   

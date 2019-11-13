@@ -4,7 +4,6 @@ import "materialize-css/dist/css/materialize.min.css";
 import './ChickenList.css'
 import StarRatings from 'react-star-ratings';
 import axios from 'axios'
-import ChickenCard from './ChickenCard'
 
 class SerachBrand extends Component{
     _isMounted = false;
@@ -51,7 +50,7 @@ class SerachBrand extends Component{
                 <div className="container">
                     <div className="row">
                         <div className="cal s12">
-                            <h3>Search Brand</h3>
+                            <h4><b>Search Brand</b></h4>
                             <div className="imput-field">
                                 <input type="text"  onChange={this.handleChange} value={this.state.search} className="white black-text autocomplete" id="autocomplete-input" placeholder="etc..."/>
                             </div>

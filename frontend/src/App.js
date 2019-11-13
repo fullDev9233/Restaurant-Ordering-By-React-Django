@@ -11,6 +11,8 @@ import DashboardRoute from "./containers/layout/DashLayoutRoute";
 /** Components **/  
 import LoginPage from './containers/Login'
 import Signup from './containers/Signup'  
+import MyPage from './containers/MyPage'
+import Contact from './containers/Contact'
 import ArticleListDetail from './containers/ArticleDetailView'  
 import Home from './containers/Home'  
 import ArticleListView from './containers/ArticleListView'  
@@ -29,7 +31,9 @@ class App extends Component {
         <Switch>  
           <DashboardRoute exact path="/" component={requirement(Home)} />  
           <LoginLayoutRoute exact path="/login" component={requirement(LoginPage)} />
-          <LoginLayoutRoute exact path="/signup" component={Signup} />  
+          <LoginLayoutRoute exact path="/signup" component={Signup} /> 
+          <DashboardRoute exact path="/mypage" component={MyPage} />  
+          <DashboardRoute exact path="/contact" component={Contact} />    
           <DashboardRoute exact path="/articles/:articleID" component={ArticleListView} />  
         </Switch>  
       </Router>  
