@@ -4,7 +4,8 @@ import "materialize-css/dist/css/materialize.min.css";
 import './ChickenList.css'
 import StarRatings from 'react-star-ratings';
 import axios from 'axios'
-
+import Select from 'react-select'
+import { colourOptions } from './data/selectOption';
 class SerachBrand extends Component{
     _isMounted = false;
 
@@ -13,6 +14,7 @@ class SerachBrand extends Component{
         chickens: [],
         search: '',
     }
+    
     componentDidMount() {
         this._isMounted = true;
         axios.get('http://127.0.0.1:8000/api/chickens/')
@@ -34,25 +36,30 @@ class SerachBrand extends Component{
         })
     }
     handleChange = (e) => {
-        console.log(e.target.value)
         this.setState({
-          search: e.target.value
+          search: e.value
         });
       }
     render() {
         const chickenList = this.state.chickens.filter( chicken => {
             return chicken.brand.includes(this.state.search)
         })
-        console.log(chickenList)
+        let nameSet = new Set(this.state.chickens.map(item => item.brand));
+        const options = [
+            { value: '', label: 'all' }
+       
+        ]
+        nameSet.forEach(v => {options.push({value: v, label: v})});
         return (
         <div>
             <section id="search" className="section serction-search darken-1 white-text center">
                 <div className="container">
                     <div className="row">
-                        <div className="cal s12">
-                            <h4><b>Search Brand</b></h4>
+                        <div className="col s12">
+                            <h4><b>Select Brand</b></h4>
                             <div className="imput-field">
-                                <input type="text"  onChange={this.handleChange} value={this.state.search} className="white black-text autocomplete" id="autocomplete-input" placeholder="etc..."/>
+                                {/* <input type="text"  onChange={this.handleChange} value={this.state.search} className="white black-text autocomplete" id="autocomplete-input" placeholder="etc..."/> */}
+                                <Select defaultValue={options[0]} onChange={this.handleChange} className="black-text" options={options} id="select-brand"/>
                             </div>
                         </div>
 
@@ -102,6 +109,8 @@ class SerachBrand extends Component{
 
         </div>
         )
+
+        
     }
 
 }

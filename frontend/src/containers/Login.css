@@ -9,3 +9,10 @@
      top: 50%;
      transform: translate(-50%, -50%);
 }
+
+#signupInput {
+   width : 95%;
+}
+#signupInputp {
+   width : 90%;
+}

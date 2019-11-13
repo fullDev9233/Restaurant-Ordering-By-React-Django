@@ -4,3 +4,13 @@
     width: 50% !important;
     border: #000000 3px solid !important;
 }
+
+#select-brand {
+    padding: 5px !important;
+    font-size: 18px !important;
+    width: 60% !important;
+    margin-left: auto; 
+    margin-right: auto;
+
+}
+

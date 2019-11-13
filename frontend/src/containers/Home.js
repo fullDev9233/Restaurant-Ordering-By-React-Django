@@ -4,6 +4,7 @@ import axios from 'axios'
 import "materialize-css/dist/css/materialize.min.css";
 import CustomSlider from './CustomSlider';
 import ChickenList from './ChickenList';
+import Footer from '../components/Footer'
 class Home extends Component{
     _isMounted = false;
 
@@ -22,6 +23,7 @@ class Home extends Component{
          <div>
              <CustomSlider />
              <ChickenList />
+             <Footer />
 
          </div>
         )
