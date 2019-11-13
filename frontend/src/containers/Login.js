@@ -12,14 +12,12 @@ class LoginForm extends React.Component {
         password: ''
     }
 
-
-  handleLogin = async() => {
-      await this.props.onAuth(this.state.username, this.state.password)
+  handleLogin = () => {
+    this.props.onAuth(this.state.username, this.state.password, ()=>{this.props.history.push("/")})
       this.setState({
           username: '',
           password: '',
       })
-      this.props.history.push('/');
 
   }
 
@@ -86,7 +84,6 @@ class LoginForm extends React.Component {
   }
 }
 
-const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(LoginForm);
 
 const mapStateToProps = (state) => {
     return {
@@ -97,7 +94,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (username, password) => dispatch(actions.authLogin(username, password))
+        onAuth: (username, password, callback) => dispatch(actions.authLogin(username, password, callback))
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(WrappedNormalLoginForm);
+export default connect(mapStateToProps,mapDispatchToProps)(LoginForm);

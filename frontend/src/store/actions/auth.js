@@ -36,10 +36,10 @@ export const checkAuthTimeout = expirationTime => {
         }, expirationTime * 1000)
     }
 }
-export const authLogin =  (username, password) => {
-    return async (dispatch) => {
+export const authLogin =  (username, password, callback) => {
+    return (dispatch) => {
         dispatch(authStart());
-        await axios.post('http://127.0.0.1:8000/rest-auth/login/', {
+        axios.post('http://127.0.0.1:8000/rest-auth/login/', {
             username: username,
             password: password
         })
@@ -50,6 +50,7 @@ export const authLogin =  (username, password) => {
             localStorage.setItem('expirationDate',expirationDate);
             dispatch(authSuccess(token));
             dispatch(checkAuthTimeout(3600));
+            callback()
         })
         .catch(err => {
             dispatch(authFail(err))
