@@ -3,15 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import reducer from './store/reducers/auth';
-import { createStore, compose, applyMiddleware } from 'redux';
+import authReducer from './store/reducers/auth';
+import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 
 
+// applyMiddleware supercharges createStore with middleware:
 
 const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const store = createStore(reducer, composeEnhances(
+const store = createStore(authReducer, composeEnhances(
     applyMiddleware(thunk)
 ));
 

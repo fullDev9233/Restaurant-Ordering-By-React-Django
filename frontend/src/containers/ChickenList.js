@@ -1,31 +1,36 @@
 import React ,{Component} from 'react'
-import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
 import './ChickenList.css'
 import StarRatings from 'react-star-ratings';
-import axios from 'axios'
 import Select from 'react-select'
-import { colourOptions } from './data/selectOption';
+import { connect } from 'react-redux';
+import * as actions from '../store/actions/auth'
+
 class SerachBrand extends Component{
     _isMounted = false;
 
     state = {
         rating: 0,
-        chickens: [],
+        // chickens: [],
         search: '',
     }
     
     componentDidMount() {
         this._isMounted = true;
-        axios.get('http://127.0.0.1:8000/api/chickens/')
-        .then(res=> {
-            if (this._isMounted) {
-            this.setState({
-                chickens: res.data
-            })
+        if (this.props.chickens.length===0){
+            this.props.fetchChicken()
+
         }
-        })
+        // axios.get('http://127.0.0.1:8000/api/chickens/')
+        // .then(res=> {
+        //     if (this._isMounted) {
+        //     this.setState({
+        //         chickens: res.data
+        //     })
+        // }
+        // })
     }
+
     componentWillUnmount() {
         this._isMounted = false;
       }
@@ -41,10 +46,10 @@ class SerachBrand extends Component{
         });
       }
     render() {
-        const chickenList = this.state.chickens.filter( chicken => {
+        const chickenList = this.props.chickens.filter( chicken => {
             return chicken.brand.includes(this.state.search)
         })
-        let nameSet = new Set(this.state.chickens.map(item => item.brand));
+        let nameSet = new Set(this.props.chickens.map(item => item.brand));
         const options = [
             { value: '', label: 'all' }
        
@@ -74,7 +79,7 @@ class SerachBrand extends Component{
                       <div className="col s12 m6 l4" key={chicken.id}>
                     <div className="card">
                     <div className="card-image">
-                        <img height="280" src="images/cimage.jpg" alt=""/>
+                        <img className="responsive-img"height="280" src="images/cimage.jpg" alt=""/>
                     </div>
                     <div className="card-content">
                             <h6><b>{chicken.brand}</b></h6>
@@ -115,4 +120,17 @@ class SerachBrand extends Component{
 
 }
 
-export default SerachBrand;
+
+const mapStateToProps = (state) => {
+    return {
+        chickens: state.chickens,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchChicken: () => dispatch(actions.fetchChicken())
+    }
+}
+// export default SerachBrand;
+export default connect(mapStateToProps,mapDispatchToProps)(SerachBrand);

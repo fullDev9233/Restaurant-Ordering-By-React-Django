@@ -99,3 +99,31 @@ export const authCheckState = () => {
         }
     }
 }
+
+
+
+export const fetchSuccess = chickens => {
+    return {
+        type: actionTypes.FETCH_SUCCESS,
+        payload: chickens
+    }
+}
+
+export const fetchFail = () => {
+    return {
+        type: actionTypes.FETCH_FAIL,
+    }
+}
+
+export const fetchChicken =  () => {
+    return (dispatch) => {
+        axios.get('http://127.0.0.1:8000/api/chickens/')
+        .then(res => {
+            const chickens = res.data;
+            dispatch(fetchSuccess(chickens));
+        })
+        .catch(err => {
+            dispatch(fetchFail())
+        })
+    }
+}

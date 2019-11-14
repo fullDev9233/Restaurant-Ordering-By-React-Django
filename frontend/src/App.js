@@ -35,6 +35,7 @@ class App extends Component {
           <DashboardRoute exact path="/mypage" component={MyPage} />  
           <DashboardRoute exact path="/contact" component={Contact} />    
           <DashboardRoute exact path="/articles/:articleID" component={ArticleListView} />  
+          <DashboardRoute component={MyPage}/>
         </Switch>  
       </Router>  
     );  

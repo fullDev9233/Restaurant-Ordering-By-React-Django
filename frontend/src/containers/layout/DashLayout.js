@@ -11,7 +11,7 @@ class DashboardLayout extends Component {
         var elems = document.querySelectorAll('.sidenav');
         var instances = M.Sidenav.init(elems);
       });
-  
+      
     }
     render(){
       return (
@@ -20,10 +20,10 @@ class DashboardLayout extends Component {
                 <nav className="white">
                     <div className="container">
                     <div className="nav-wrapper">
-                        <a href="/" className="brand-logo"><i className="black-text black-icon material-icons">thumb_up</i><b className="black-text">chickenUp</b></a>
-                        <a href="/" className="sidenav-trigger" data-target="mobile-nav">
+                        <Link to="/" className="brand-logo"><i className="black-text black-icon material-icons">thumb_up</i><b className="black-text">chickenUp</b></Link>
+                        <Link to="/" className="sidenav-trigger" data-target="mobile-nav">
                         <i className="material-icons black-text black-icon">menu</i>
-                        </a>
+                        </Link>
                         <ul className="right hide-on-med-and-down">
                             <li>
                             <Link className="black-text" to="/"><b>Home</b></Link>

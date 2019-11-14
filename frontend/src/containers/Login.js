@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Button, Spin} from 'antd';
+import { Icon, Button, Spin} from 'antd';
 import { connect } from 'react-redux';
 import { NavLink} from 'react-router-dom';
 import * as actions from '../store/actions/auth'
