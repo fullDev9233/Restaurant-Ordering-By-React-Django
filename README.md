@@ -6,7 +6,8 @@
 Make & Activate Virtual env:-
 ```
 python -m venv venv
-venv\Scripts\activate
+(Windows) venv\Scripts\activate
+(Linux/Mac) source venv/bin/activate
 ```
 Install Dependencies:- 
 ```
