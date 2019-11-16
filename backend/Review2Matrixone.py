@@ -10,6 +10,8 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangoreactapi.settings")
 import django
 django.setup()
 
+from chicken.models import Rating
+
 warnings.filterwarnings('ignore')
 
 data = pd.read_csv('./Chicken_review.csv',encoding='CP949')
@@ -38,7 +40,7 @@ df = data[['UserID','Menu','Total']]
 for index, value in enumerate(df['Menu']):
     df['Menu'][index] = df['Menu'][index].split('/')[0]
 
-print(df.tail()) #변경된 DataFrame 형태
+print(df.tail()) #변경된 DataFrame 형태출력
 
 #data to Dictionary 함수
 def recur_dictify(frame):
@@ -87,15 +89,17 @@ for name_key in df_to_dict :
         #사용자-치킨메뉴 의 평점 추출 
         a3 = df_to_dict[name_key][chk_key]
         
-        #Dictionary에 저장
+        #Dictionary & Django DB에 저장
         rating_dic['UserID'].append(a1)
         rating_dic['Menu'].append(a2)
         #만약 사용자 ID 중복으로 인해 한 메뉴에 여러 평점이 들어갔으면, 첫번째 평점만 저장
         if type(a3) is not numpy.ndarray:
             rating_dic['Total'].append(a3)
+            rating = Rating(name=a1, Menu=a2, Total=a3)
         else:
             rating_dic['Total'].append(a3[0])
-            
+            rating = Rating(name=a1, Menu=a2, Total=a3[0])
+        rating.save()
             
 print('각 Dic의 data 수 : ',len(rating_dic['UserID']),len(rating_dic['Menu']),len(rating_dic['Total']))
 
@@ -103,6 +107,7 @@ print('각 Dic의 data 수 : ',len(rating_dic['UserID']),len(rating_dic['Menu'])
 #사전을 기반으로 DataSet 생성
 df = pd.DataFrame(rating_dic)
 #print(df)
+
 
 #reader 객체로 Data읽기. rating scale은 평점의 범위 `1~5`
 reader = surprise.Reader(rating_scale=(1,5))
