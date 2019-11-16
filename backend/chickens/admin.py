@@ -1,11 +1,12 @@
 from django.contrib import admin
 from urllib.parse import quote
 from django.utils.safestring import mark_safe
-from .models import Shop, Item, Chicken
-
+from .models import Shop, Item, Chicken,Rating
 # Register your models here.
 
-admin.site.register(Chicken)
+@admin.register(Chicken)
+class ChickenAdmin(admin.ModelAdmin):
+    list_display = ('brand', 'name', 'desc','image')
 
 @admin.register(Shop)
 class ShopAdmin(admin.ModelAdmin):
@@ -24,4 +25,11 @@ class ItemAdmin(admin.ModelAdmin):
     list_display = ['shop', 'name']
     list_display_links = ['name']
     list_filter = ['shop']
+    search_fields = ['name']
+
+@admin.register(Rating)
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ['name', 'Menu','Total']
+    list_display_links = ['name']
+    list_filter = ['name']
     search_fields = ['name']
