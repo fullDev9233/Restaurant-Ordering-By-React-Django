@@ -13,7 +13,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangoreactapi.settings")
 import django
 django.setup()
 
-from chicken.models import Shop, Item 
+from chickens.models import Shop, Item 
 
 class Yogiyo:
     HOST = 'https://www.yogiyo.co.kr'
