@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangoreactapi.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 import django
 django.setup()
 
