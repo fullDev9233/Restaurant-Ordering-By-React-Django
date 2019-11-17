@@ -11,7 +11,7 @@ python -m venv venv
 ```
 Install Dependencies:- 
 ```
-cd Backend
+cd backend
 pip install -r requirements.txt
 ```
 Make DB Migrations:-
@@ -33,7 +33,7 @@ python ./manage.py runserver
 
 Install Dependencies:- 
 ```
-cd Backend
+cd frontend
 npm install
 ```
 Start front server:-
