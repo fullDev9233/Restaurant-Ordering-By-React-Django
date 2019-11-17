@@ -88,6 +88,7 @@ class MyPage extends Component{
 const mapStateToProps = (state) => {
     return {
         chickens: state.chickens,
+        username : state.username
     }
 }
 

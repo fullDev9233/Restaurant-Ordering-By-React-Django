@@ -7,6 +7,7 @@ const initialState = {
     loading: false,
     isAuthenticated: false,
     chickens: [],
+    username: null,
 
 }
 
@@ -22,7 +23,8 @@ const authSuccess = (state, action) => {
         token: action.token,
         error: null,
         loading: false,
-        isAuthenticated: true
+        isAuthenticated: true,
+        username: action.username
     });
 }
 

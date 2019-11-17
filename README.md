@@ -6,11 +6,12 @@
 Make & Activate Virtual env:-
 ```
 python -m venv venv
-venv\Scripts\activate
+(Windows) venv\Scripts\activate
+(Linux/Mac) source venv/bin/activate
 ```
 Install Dependencies:- 
 ```
-cd Backend
+cd backend
 pip install -r requirements.txt
 ```
 Make DB Migrations:-
@@ -32,7 +33,7 @@ python ./manage.py runserver
 
 Install Dependencies:- 
 ```
-cd Backend
+cd frontend
 npm install
 ```
 Start front server:-
