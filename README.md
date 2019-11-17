@@ -26,7 +26,11 @@ Start server for your REST-API:-
 ```
 python ./manage.py runserver
 ```     
-
+***
+### Backend-Crawling Setup 
+python MenuCrawling.py
+python Review2Matrixone.py
+```
 ***
 ### frontend-Setup
 
