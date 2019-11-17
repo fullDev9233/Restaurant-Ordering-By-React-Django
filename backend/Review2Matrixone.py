@@ -6,11 +6,11 @@ from matplotlib import pyplot as plt
 import surprise
 
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangoreactapi.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 import django
 django.setup()
 
-from chicken.models import Rating
+from chickens.models import Rating
 
 warnings.filterwarnings('ignore')
 
