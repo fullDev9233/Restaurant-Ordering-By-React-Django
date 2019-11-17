@@ -7,10 +7,11 @@ export const authStart = () => {
     }
 }
 
-export const authSuccess = token => {
+export const authSuccess = (token,username) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
-        token: token
+        token: token,
+        username: username
     }
 }
 
@@ -44,11 +45,12 @@ export const authLogin =  (username, password, callback) => {
             password: password
         })
         .then(res => {
+            console.log(username)
             const token = res.data.key;
             const expirationDate = new Date(new Date().getTime() + 3600 * 1000 );
             localStorage.setItem('token', token);
             localStorage.setItem('expirationDate',expirationDate);
-            dispatch(authSuccess(token));
+            dispatch(authSuccess(token, username));
             dispatch(checkAuthTimeout(3600));
             callback()
         })

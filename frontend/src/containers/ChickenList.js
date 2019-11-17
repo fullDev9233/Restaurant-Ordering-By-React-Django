@@ -82,8 +82,8 @@ class SerachBrand extends Component{
                         <img className="responsive-img"height="280" src="images/cimage.jpg" alt=""/>
                     </div>
                     <div className="card-content">
-                            <h6><b>{chicken.brand}</b></h6>
-                        {chicken.name}
+                            <h6><b>{chicken.name}</b></h6>
+                        brand : {chicken.brand}
                         <br></br>
                         <StarRatings
                         rating={this.state.rating}

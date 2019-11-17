@@ -7,12 +7,14 @@ import "materialize-css/dist/css/materialize.min.css";
 import './Layout.css'
 class DashboardLayout extends Component {
     componentDidMount() {
-      document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('.sidenav');
-        var instances = M.Sidenav.init(elems);
+      var elem = document.querySelector(".sidenav");
+      var instance = M.Sidenav.init(elem, {
+          edge: "left",
+          inDuration: 250
       });
       
     }
+
     render(){
       return (
         <div className="page page-dashboard">  
@@ -20,7 +22,7 @@ class DashboardLayout extends Component {
                 <nav className="white">
                     <div className="container">
                     <div className="nav-wrapper">
-                        <Link to="/" className="brand-logo"><i className="black-text black-icon material-icons">thumb_up</i><b className="black-text">chickenUp</b></Link>
+                        <Link to="/" className="brand-logo"><i className="hide-on-med-and-down black-text black-icon material-icons">thumb_up</i><b className="black-text">chickenUp</b></Link>
                         <Link to="/" className="sidenav-trigger" data-target="mobile-nav">
                         <i className="material-icons black-text black-icon">menu</i>
                         </Link>
@@ -54,24 +56,24 @@ class DashboardLayout extends Component {
                 </nav>
                 <ul className="sidenav" id="mobile-nav">
                     <li>
-                    <Link to="/">Home</Link>
+                    <Link className="sidenav-close" to="/">Home</Link>
                     </li>
                     <li>
-                    <Link to="/mypage">mypage</Link>
+                    <Link className="sidenav-close" to="/mypage">mypage</Link>
                     </li>
                     <li>
-                    <Link to="/contact">contact</Link>
+                    <Link className="sidenav-close" to="/contact">contact</Link>
                     </li>
                     {
                       this.props.isAuthenticated ? (
                         <li>
-                        <Link to="/login" onClick={this.props.logout}>logout</Link>
+                        <Link className="sidenav-close" to="/login" onClick={this.props.logout}>logout</Link>
                         </li>
              
                       ):
                       (
                         <li>
-                        <Link to="#home">login</Link>
+                        <Link className="sidenav-close" to="#home">login</Link>
                         </li>
                       )
                     }   
