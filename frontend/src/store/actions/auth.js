@@ -1,6 +1,9 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
+const deploy = false;
+const path = deploy ? '13.123.123.12:8000' : '127.0.0.1:8000'
+
 export const authStart = () => {
     return {
         type: actionTypes.AUTH_START  
@@ -40,7 +43,7 @@ export const checkAuthTimeout = expirationTime => {
 export const authLogin =  (username, password, callback) => {
     return (dispatch) => {
         dispatch(authStart());
-        axios.post('http://127.0.0.1:8000/rest-auth/login/', {
+        axios.post('http://'+path+'/rest-auth/login/', {
             username: username,
             password: password
         })
@@ -63,7 +66,7 @@ export const authLogin =  (username, password, callback) => {
 export const authSignup = (username, email, password1, password2) => {
     return dispatch => {
         dispatch(authStart());
-        axios.post('http://127.0.0.1:8000/rest-auth/registration/', {
+        axios.post('http://'+path+'/rest-auth/registration/', {
             username: username,
             email: email,
             password1: password1,
@@ -119,7 +122,7 @@ export const fetchFail = () => {
 
 export const fetchChicken =  () => {
     return (dispatch) => {
-        axios.get('http://127.0.0.1:8000/api/chickens/')
+        axios.get('http://'+path+'/api/chickens/')
         .then(res => {
             const chickens = res.data;
             dispatch(fetchSuccess(chickens));
