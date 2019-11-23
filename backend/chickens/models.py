@@ -25,6 +25,9 @@ class Shop(models.Model):
     @property
     def address(self):
         return self.meta.get('address')
+    
+    def shopname(self):
+        return self.name
 
 class Item(models.Model):
     shop = models.ForeignKey(Shop,on_delete=models.CASCADE,)
@@ -36,7 +39,7 @@ class Item(models.Model):
     meta = JSONField()
 
     def __str__(self):
-        return '{} {} {} {}'.format(self.shop, self.name, self.amount, self.photo)
+        return '{} {} {} {}'.format(Shop.shopname(self.shop), self.name, self.amount, self.photo)
 
 class Rating(models.Model):
     name = models.TextField(blank=True)
