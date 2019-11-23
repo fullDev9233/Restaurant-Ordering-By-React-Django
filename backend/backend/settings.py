@@ -16,6 +16,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+MEDIA_URL = '/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 
 # Application definition
 
@@ -65,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.media',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
