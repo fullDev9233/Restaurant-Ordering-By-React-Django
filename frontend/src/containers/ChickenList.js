@@ -5,27 +5,54 @@ import StarRatings from 'react-star-ratings';
 import Select from 'react-select'
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth'
-
+import axios from 'axios'
 class SerachBrand extends Component{
     _isMounted = false;
 
     state = {
         rating: 0,
-        // chickens: [],
+        chickens: [],
         search: '',
     }
     
     componentDidMount() {
         this._isMounted = true;
-        if (this.props.chickens.length===0){
-            this.props.fetchChicken()
+        // if (this.props.chickens.length===0){
+        //     this.props.fetchChicken()
 
-        }
+        // }
+        axios.get('http://127.0.0.1:8000/api/chickens/')
+        .then(res=> {
+            if (this._isMounted) {
+                axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+                .then( res1 => {
+                    // console.log(res.data)
+                    let favoriteSet = new Set(res1.data.map(item => item.chickenID));
+                    let mychickens = res.data.filter( v => {
+                        return !favoriteSet.has(v.id)
+                    })
+                    // console.log(mychickens)
+                    this.setState({
+                        chickens: mychickens
+                    })
+                })
+            }
+        })
+
         // axios.get('http://127.0.0.1:8000/api/chickens/')
         // .then(res=> {
         //     if (this._isMounted) {
         //     this.setState({
         //         chickens: res.data
+        //     })
+        // }
+        // })
+
+        // axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+        // .then(res=> {
+        //     if (this._isMounted) {
+        //     this.setState({
+        //         mychickens: res.data
         //     })
         // }
         // })
@@ -35,8 +62,12 @@ class SerachBrand extends Component{
         this._isMounted = false;
       }
     changeRating = ( newRating, name ) => {
+        let mychickens = this.state.chickens.filter( v => {
+            return v.id!=name
+        })
+        this.props.updateRate(localStorage.name, name, newRating)
         this.setState({
-            rating: newRating
+            chickens: mychickens,
 
         })
     }
@@ -46,7 +77,21 @@ class SerachBrand extends Component{
         });
       }
     render() {
-        const chickenList = this.props.chickens.filter( chicken => {
+
+        if(this.state.mychickens){
+            let favoriteSet = new Set(this.state.mychickens.map(item => item.chickenID));
+            this.state.chickens = this.state.chickens.filter( v => {
+                console.log(!favoriteSet.has(v.id))
+                return !favoriteSet.has(v.id)
+            })
+            console.log(this.state.chickens)
+        }
+
+        let chickenRating = this.state.chickens.map( (v) => {
+            v.rating = 0
+            return v
+        })
+        let chickenList = chickenRating.filter( chicken => {
             return chicken.brand.includes(this.state.search)
         })
         let nameSet = new Set(this.props.chickens.map(item => item.brand));
@@ -75,7 +120,7 @@ class SerachBrand extends Component{
             <section id="popular" className="section section-popular grey lighten-4">
                 <div className="container">
                     <div className="row">
-                    {chickenList.length > 0 ? (chickenList.map( (chicken) => (
+                    {this.state.chickens.length > 0 ? (this.state.chickens.map( (chicken) => (
                       <div className="col s12 m6 l4" key={chicken.id}>
                     <div className="card">
                     <div className="card-image">
@@ -86,13 +131,14 @@ class SerachBrand extends Component{
                         brand : {chicken.brand}
                         <br></br>
                         <StarRatings
-                        rating={this.state.rating}
+                        rating={chicken.rating}
                         starRatedColor="blue"
                         changeRating={this.changeRating}
                         numberOfStars={5}
                         starDimension="20px"
                         starSpacing="2px"
-                        name='rating'
+                        name={chicken.id.toString()}
+                        
                         />
                         
                     </div>
@@ -124,12 +170,14 @@ class SerachBrand extends Component{
 const mapStateToProps = (state) => {
     return {
         chickens: state.chickens,
+        name : state.username,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchChicken: () => dispatch(actions.fetchChicken())
+        fetchChicken: () => dispatch(actions.fetchChicken()),
+        updateRate: (username, itemname, rate) =>dispatch(actions.updateRate(username,itemname,rate)),
     }
 }
 // export default SerachBrand;

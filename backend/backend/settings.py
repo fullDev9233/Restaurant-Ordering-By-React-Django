@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
     'chickens',
-    'articles'
+    'articles',
+    'ranking'
 ]
 
 SITE_ID = 1

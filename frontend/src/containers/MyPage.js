@@ -1,19 +1,41 @@
 import React ,{Component} from 'react'
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth'
-
+import axios from 'axios'
 class MyPage extends Component{
     _isMounted = false;
-
+    state = {
+        chickens: [],
+    }
     componentDidMount() {
         this._isMounted = true;
+
+        axios.get('http://127.0.0.1:8000/api/chickens/')
+        .then(res=> {
+            if (this._isMounted) {
+                axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+                .then( res1 => {
+                    // console.log(res.data)
+                    let favoriteSet = new Set(res1.data.map(item => item.chickenID));
+                    let mychickens = res.data.filter( v => {
+                        return favoriteSet.has(v.id)
+                    })
+                    // console.log(mychickens)
+                    this.setState({
+                        chickens: mychickens
+                    })
+                })
+            }
+        })
+
+
 
     }
     componentWillUnmount() {
         this._isMounted = false;
       }
     render() {
-        const chickenList = this.props.chickens.slice(0,3)
+        const chickenList = this.state.chickens
         return (
          <div className="container">
              <div className="row">
@@ -51,7 +73,7 @@ class MyPage extends Component{
                  <div className="col s12 m12 l12">                   
                     <h4><b>My Favorite Chicken</b></h4>
                     <div className="row">
-                    {chickenList.length > 0 ? (chickenList.map( (chicken) => (
+                    {0 > 0 ? (chickenList.map( (chicken) => (
                       <div className="col s12 m6 l4" key={chicken.id}>
                     <div className="card">
                     <div className="card-image">

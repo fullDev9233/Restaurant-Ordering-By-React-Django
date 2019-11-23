@@ -5,3 +5,6 @@ export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_FAIL = 'FETCH_FAIL';
+
+export const RATING_SUCCESS = 'RATING_SUCCESS';
+export const UPDATERATE_SUCCESS = 'UPDATERATE_SUCCESS';
