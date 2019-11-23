@@ -92,9 +92,9 @@ class SerachBrand extends Component{
             return v
         })
         let chickenList = chickenRating.filter( chicken => {
-            return chicken.brand.includes(this.state.search)
+            return chicken.shop.name.includes(this.state.search)
         })
-        let nameSet = new Set(this.state.chickens.map(item => item.brand));
+        let nameSet = new Set(this.state.chickens.map(item => item.shop.name));
         const options = [
             { value: '', label: 'all' }
        
@@ -124,11 +124,11 @@ class SerachBrand extends Component{
                       <div className="col s12 m6 l4" key={chicken.id}>
                     <div className="card">
                     <div className="card-image">
-                        <img className="responsive-img"height="280" src="images/cimage.jpg" alt=""/>
+                        <img className="responsive-img"height="280" src={chicken.photo} onError={(e)=>{ console.log(1); e.target.onerror = null; e.target.src="images/cimage.jpg"}} alt=""/>
                     </div>
                     <div className="card-content">
-                            <h6><b>{chicken.name}</b></h6>
-                        brand : {chicken.brand}
+                        <h6><b>{chicken.name.slice(0,15)}</b></h6>
+                        brand : {chicken.shop.name}
                         <br></br>
                         <StarRatings
                         rating={chicken.rating}
@@ -148,6 +148,17 @@ class SerachBrand extends Component{
             <div className="col s12 m12 l12 center" >
                 <div className="card-content">
                     <h6><b>NO DATA</b></h6>
+                </div>
+                <div className="preloader-wrapper active">
+                    <div className="spinner-layer spinner-red-only">
+                    <div className="circle-clipper left">
+                        <div className="circle"></div>
+                    </div><div className="gap-patch">
+                        <div className="circle"></div>
+                    </div><div className="circle-clipper right">
+                        <div className="circle"></div>
+                    </div>
+                    </div>
                 </div>
             </div>
       

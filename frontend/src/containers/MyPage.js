@@ -40,18 +40,18 @@ class MyPage extends Component{
          <div className="container">
              <div className="row">
                 <div className="col s12 m12 l12">
-                    <h4><b>Recommended Chicken</b></h4>
+                    <h4><b>My Favorite Chicken</b></h4>
 
                     <div className="row">
                     {chickenList.length > 0 ? (chickenList.map( (chicken) => (
                       <div className="col s12 m6 l4" key={chicken.id}>
                     <div className="card">
                     <div className="card-image">
-                        <img className="responsive-img"height="280" src="images/cimage.jpg" alt=""/>
+                        <img className="responsive-img"height="280" src={chicken.photo} alt=""/>
                     </div>
                     <div className="card-content">
-                            <h6><b>{chicken.brand}</b></h6>
-                        {chicken.name}
+                            <h6><b>{chicken.name}</b></h6>
+                        {chicken.shop.name}
 
                         
                             </div>
@@ -70,10 +70,11 @@ class MyPage extends Component{
                     </div>
                  </div>
 
-                 <div className="col s12 m12 l12">                   
-                    <h4><b>My Favorite Chicken</b></h4>
+                 <div className="col s12 m12 l12">    
+                                
+                    <h4><b>Recommended Chicken</b></h4>
                     <div className="row">
-                    {0 > 0 ? (chickenList.map( (chicken) => (
+                    {-1 > 0 ? (chickenList.map( (chicken) => (
                       <div className="col s12 m6 l4" key={chicken.id}>
                     <div className="card">
                     <div className="card-image">

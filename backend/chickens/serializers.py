@@ -4,7 +4,7 @@ from .models import Chicken, Item, Rating, Shop
 class ChickenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Chicken
-        fields = ('id', 'brand','name','desc')
+        fields = ('id', 'brand','name','content')
 
 class ShopSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,7 +16,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ('shop', 'name', 'amount', 'photo')
+        fields = ('id','shop', 'name', 'amount', 'photo')
 
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:

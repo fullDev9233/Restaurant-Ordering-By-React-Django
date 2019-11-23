@@ -6,7 +6,7 @@ from .models import Shop, Item, Chicken,Rating
 
 @admin.register(Chicken)
 class ChickenAdmin(admin.ModelAdmin):
-    list_display = ('brand', 'name', 'desc','image')
+    list_display = ('brand', 'name', 'content','image')
 
 @admin.register(Shop)
 class ShopAdmin(admin.ModelAdmin):

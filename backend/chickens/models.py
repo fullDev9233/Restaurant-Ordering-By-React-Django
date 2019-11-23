@@ -34,7 +34,7 @@ class Item(models.Model):
     name = models.CharField(max_length=100, db_index=True)
     desc = models.TextField(blank=True)
     amount = models.PositiveIntegerField()
-    photo = models.ImageField(blank=True)
+    photo = models.ImageField(blank=True, default='default_image.PNG')
     is_public = models.BooleanField(default=False, db_index=True)
     meta = JSONField()
 
@@ -52,7 +52,7 @@ class Chicken(models.Model):
     objects = models.Manager()
     brand = models.CharField(max_length=200)
     name = models.CharField(max_length=200)
-    desc = models.TextField()
+    content = models.TextField()
     #image = models.FileField(upload_to='images',blank=True)
     image = models.ImageField(default='default_image.PNG')
 
