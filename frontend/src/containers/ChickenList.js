@@ -81,10 +81,10 @@ class SerachBrand extends Component{
         if(this.state.mychickens){
             let favoriteSet = new Set(this.state.mychickens.map(item => item.chickenID));
             this.state.chickens = this.state.chickens.filter( v => {
-                console.log(!favoriteSet.has(v.id))
+                // console.log(!favoriteSet.has(v.id))
                 return !favoriteSet.has(v.id)
             })
-            console.log(this.state.chickens)
+            // console.log(this.state.chickens)
         }
 
         let chickenRating = this.state.chickens.map( (v) => {
@@ -94,7 +94,7 @@ class SerachBrand extends Component{
         let chickenList = chickenRating.filter( chicken => {
             return chicken.brand.includes(this.state.search)
         })
-        let nameSet = new Set(this.props.chickens.map(item => item.brand));
+        let nameSet = new Set(this.state.chickens.map(item => item.brand));
         const options = [
             { value: '', label: 'all' }
        
@@ -120,7 +120,7 @@ class SerachBrand extends Component{
             <section id="popular" className="section section-popular grey lighten-4">
                 <div className="container">
                     <div className="row">
-                    {this.state.chickens.length > 0 ? (this.state.chickens.map( (chicken) => (
+                    {chickenList.length > 0 ? (chickenList.map( (chicken) => (
                       <div className="col s12 m6 l4" key={chicken.id}>
                     <div className="card">
                     <div className="card-image">
