@@ -1,7 +1,9 @@
 from django.urls import path
-from .views import ChickenListView, ChickenDetailView
+from .views import *
 
 urlpatterns = [
-    path('', ChickenListView.as_view()),
-    path('<pk>', ChickenDetailView.as_view()),
+    path('chickens/', ChickenListView.as_view()),
+    path('chickens/<pk>', ChickenDetailView.as_view()),
+    path('rating/', RatingListView.as_view()),
+    path('rating/<pk>', RatingDetailView.as_view())
 ]

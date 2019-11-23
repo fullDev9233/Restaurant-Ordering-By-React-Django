@@ -36,14 +36,14 @@ class Item(models.Model):
     meta = JSONField()
 
     def __str__(self):
-        return self.name
+        return '{} {} {} {}'.format(self.shop, self.name, self.amount, self.photo)
 
 class Rating(models.Model):
     name = models.TextField(blank=True)
     Menu = models.TextField(blank=True)
     Total = models.TextField(blank=True)
     def __str__(self):
-        return self.name
+        return '{} {} {}'.format(self.name, self.Menu, self.Total)
 
 class Chicken(models.Model):
     objects = models.Manager()
@@ -52,6 +52,5 @@ class Chicken(models.Model):
     desc = models.TextField()
     #image = models.FileField(upload_to='images',blank=True)
     image = models.ImageField(default='default_image.PNG')
-
     def __str__(self):
-        return self.name
+        return '{} {}'.format(self.name, self.image)

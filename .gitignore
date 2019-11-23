@@ -169,3 +169,5 @@ ENV/
 .mypy_cache/
 
 .vscode
+
+mergeUpstream.sh
