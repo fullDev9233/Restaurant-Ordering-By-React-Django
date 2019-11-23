@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import Ranking
+from .models import Favorite
 
-class RankingSerializer(serializers.ModelSerializer):
+class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Ranking
+        model = Favorite
         fields = ('id', 'username','chickenID','rate')

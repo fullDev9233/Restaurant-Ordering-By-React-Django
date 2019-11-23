@@ -24,7 +24,7 @@ class SerachBrand extends Component{
         axios.get('http://127.0.0.1:8000/api/chickens/')
         .then(res=> {
             if (this._isMounted) {
-                axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+                axios.get('http://127.0.0.1:8000/api/favorite/'+localStorage.name)
                 .then( res1 => {
                     // console.log(res.data)
                     let favoriteSet = new Set(res1.data.map(item => item.chickenID));
