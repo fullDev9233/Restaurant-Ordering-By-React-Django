@@ -19,7 +19,7 @@ from ranking.serializers import RankingSerializer, RecommendSerializer
 from ranking.recsys import Recommender
 
 recm = Recommender()
-recm.read_DB()
+recm.read_DB(0)
 
 
 @api_view(['GET', 'POST'])
@@ -36,6 +36,7 @@ def ranking_list(request):
         serializer = RankingSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            recm.read_DB(1)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -59,7 +60,6 @@ def ranking_detail(request, pk):
         serializer = RankingSerializer(ranking, data=data)
         if serializer.is_valid():
             serializer.save()
-            recm.read_DB()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
 
@@ -70,10 +70,7 @@ def ranking_detail(request, pk):
 @api_view(['GET'])
 def recommend_list(request, pk):
     print(pk)
-    try:
-        recm.recsys(pk)
-        recommend = Recommend.objects.filter(username='pk')
-        serializer = RecommendSerializer(recommend, many=True)
-        return Response(serializer.data)
-    except:
-        return Response(status=404)
+    recm.recsys(pk)
+    recommend = Recommend.objects.filter(username=pk)
+    serializer = RecommendSerializer(recommend, many=True)
+    return Response(serializer.data)
