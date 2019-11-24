@@ -72,7 +72,7 @@ def recommend_list(request, pk):
     print(pk)
     try:
         recm.recsys(pk)
-        recommend = Recommend.objects.all()
+        recommend = Recommend.objects.filter(username='pk')
         serializer = RecommendSerializer(recommend, many=True)
         return Response(serializer.data)
     except:
