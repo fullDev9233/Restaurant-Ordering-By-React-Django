@@ -10,7 +10,8 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 import django
 django.setup()
 
-from chickens.models import Rating
+from chickens.models import Rating, Shop, Item
+from ranking.models import Ranking
 
 warnings.filterwarnings('ignore')
 
@@ -31,7 +32,7 @@ print(data['Total'])
 print(data.tail())
 
 #data 구조 to pandas DataFrame
-df = data[['UserID','Menu','Total']]
+df = data[['Restaurant','UserID','Menu','Total']]
 
 #data 형태출력
 #print(df.tail())
@@ -39,6 +40,9 @@ df = data[['UserID','Menu','Total']]
 #문자열 '/' 기준 앞의 요소들만 남기고 삭제. ※데이터 형태 :  메인메뉴 / 사이드 
 for index, value in enumerate(df['Menu']):
     df['Menu'][index] = df['Menu'][index].split('/')[0]
+
+for index, value in enumerate(df['UserID']):
+    df['UserID'][index] = df['UserID'][index].replace("님", "")
 
 print(df.tail()) #변경된 DataFrame 형태출력
 
@@ -58,12 +62,16 @@ df_to_dict = recur_dictify(df)
 name_list = []
 #치킨 목록을 담을 set (중복O)
 chk_set = set()
+rest_list = []
 
-for user_key in df_to_dict:
-    name_list.append(user_key)
+for rest_key in df_to_dict:
+    rest_list.append(rest_key)
+
+    for user_key in df_to_dict[rest_key]:
+        name_list.append(user_key)
     
-    for chk_key in df_to_dict[user_key]:
-        chk_set.add(chk_key)
+        for chk_key in df_to_dict[rest_key][user_key]:
+            chk_set.add(chk_key)
 
 # 치킨 메뉴목록 확인
 #print(chk_set)
@@ -72,34 +80,46 @@ chk_list = list(chk_set)
 
 #사전화 된 각각의 Colum들을 indexing 하여 저장할 Dictionary
 rating_dic = {
+    'Restaurant' : [],
     'UserID' : [],
     'Menu' : [],
     'Total' : []
 }
 
 #사용자 수 만큼 반복
-for name_key in df_to_dict :
-    #사용자가 구매한 치킨의 수 만큼 반복
-    for chk_key in df_to_dict[name_key]:
-        
-        #사용자 인덱스 번호 추출
-        a1 = name_list.index(name_key)
-        #치킨 메뉴 인덱스 번호 추출
-        a2 = chk_list.index(chk_key)
-        #사용자-치킨메뉴 의 평점 추출 
-        a3 = df_to_dict[name_key][chk_key]
-        
-        #Dictionary & Django DB에 저장
-        rating_dic['UserID'].append(a1)
-        rating_dic['Menu'].append(a2)
-        #만약 사용자 ID 중복으로 인해 한 메뉴에 여러 평점이 들어갔으면, 첫번째 평점만 저장
-        if type(a3) is not numpy.ndarray:
-            rating_dic['Total'].append(a3)
-            rating = Rating(name=a1, Menu=a2, Total=a3)
-        else:
-            rating_dic['Total'].append(a3[0])
-            rating = Rating(name=a1, Menu=a2, Total=a3[0])
-        rating.save()
+for rest_key in df_to_dict:
+    for name_key in df_to_dict[rest_key] :
+        #사용자가 구매한 치킨의 수 만큼 반복
+        for chk_key in df_to_dict[rest_key][name_key]:
+            
+            a0 = rest_list.index(rest_key)
+            #사용자 인덱스 번호 추출
+            a1 = name_list.index(name_key)
+            #치킨 메뉴 인덱스 번호 추출
+            a2 = chk_list.index(chk_key)
+            #사용자-치킨메뉴 의 평점 추출 
+            a3 = df_to_dict[rest_key][name_key][chk_key]
+            try:
+                print(rest_key, name_key, chk_key)
+                a4 = Shop.objects.get(name__contains=rest_key).id
+                a5 = Item.objects.get(name=chk_key, shop=a4).id
+                
+                #Dictionary & Django DB에 저장
+                rating_dic['Restaurant'].append(a0)
+                rating_dic['UserID'].append(a1)
+                rating_dic['Menu'].append(a2)
+                #만약 사용자 ID 중복으로 인해 한 메뉴에 여러 평점이 들어갔으면, 첫번째 평점만 저장
+                if type(a3) is not numpy.ndarray:
+                    rating_dic['Total'].append(a3)
+                    ranking = Ranking(username=name_key, rate=a3, chickenID=a5)
+                else:
+                    rating_dic['Total'].append(a3[0])
+                    ranking = Ranking(username=name_key, rate=a3[0], chickenID=a5)
+                ranking.save()
+            except Shop.DoesNotExist:
+                continue
+            except Item.DoesNotExist:
+                continue
             
 print('각 Dic의 data 수 : ',len(rating_dic['UserID']),len(rating_dic['Menu']),len(rating_dic['Total']))
 

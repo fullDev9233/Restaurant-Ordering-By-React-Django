@@ -14,8 +14,12 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from ranking.models import Ranking
-from ranking.serializers import RankingSerializer
+from ranking.models import Ranking, Recommend
+from ranking.serializers import RankingSerializer, RecommendSerializer
+from ranking.recsys import Recommender
+
+recm = Recommender()
+recm.read_DB()
 
 
 @api_view(['GET', 'POST'])
@@ -55,9 +59,21 @@ def ranking_detail(request, pk):
         serializer = RankingSerializer(ranking, data=data)
         if serializer.is_valid():
             serializer.save()
+            recm.read_DB()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
 
     elif request.method == 'DELETE':
         ranking.delete()
         return Response(status=204)
+
+@api_view(['GET'])
+def recommend_list(request, pk):
+    print(pk)
+    try:
+        recm.recsys(pk)
+        recommend = Recommend.objects.all()
+        serializer = RecommendSerializer(recommend, many=True)
+        return Response(serializer.data)
+    except:
+        return Response(status=404)

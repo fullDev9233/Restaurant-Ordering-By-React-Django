@@ -9,7 +9,7 @@ from jsonfield import JSONField
 
 class Shop(models.Model):
     # 1:N 관계 설정
-    name = models.CharField(max_length=100, db_index=True)
+    name = models.CharField(max_length=100, db_index=True, unique=True)
     desc = models.TextField(blank=True)
     latlng = models.CharField(max_length=100, blank=True)
     photo = models.ImageField(blank=True)
@@ -30,6 +30,9 @@ class Shop(models.Model):
         return self.name
 
 class Item(models.Model):
+    class Meta:
+        unique_together =[['shop', 'name']]
+
     shop = models.ForeignKey(Shop,on_delete=models.CASCADE,)
     name = models.CharField(max_length=100, db_index=True)
     desc = models.TextField(blank=True)

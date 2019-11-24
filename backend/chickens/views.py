@@ -10,6 +10,12 @@ class ChickenListView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+class ChickenListExView(generics.ListCreateAPIView):
+    queryset = Item.objects.exclude(photo='')
+    serializer_class = ItemSerializer
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 class ChickenDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
