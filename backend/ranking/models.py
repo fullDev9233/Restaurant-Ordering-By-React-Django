@@ -10,6 +10,9 @@ class Ranking(models.Model):
         return self.username
 
 class Recommend(models.Model):
+    class Meta:
+        unique_together =[['username', 'chickenID']]
+
     objects = models.Manager()
     username = models.CharField(max_length=120)
     chickenID = models.IntegerField(default=0)
