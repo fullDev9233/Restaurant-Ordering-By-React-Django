@@ -9,10 +9,11 @@ class MyPage extends Component{
     }
     componentDidMount() {
         this._isMounted = true;
+
         axios.get('http://127.0.0.1:8000/api/chickens/')
         .then(res=> {
             if (this._isMounted) {
-                axios.get('http://127.0.0.1:8000/api/favorite/'+localStorage.name)
+                axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
                 .then( res1 => {
                     // console.log(res.data)
                     let favoriteSet = new Set(res1.data.map(item => item.chickenID));
@@ -32,7 +33,6 @@ class MyPage extends Component{
     }
     componentWillUnmount() {
         this._isMounted = false;
-
       }
     render() {
         const chickenList = this.state.chickens

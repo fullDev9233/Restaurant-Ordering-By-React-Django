@@ -10,7 +10,7 @@ urlpatterns = [
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('api/', include('chickens.urls')),
     # path('api/chickens/', include('chickens.urls')),
-    path('api/favorite/', include('favorite.urls'))
+    path('api/ranking/', include('ranking.urls'))
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
