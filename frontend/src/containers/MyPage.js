@@ -10,43 +10,41 @@ class MyPage extends Component{
     }
     componentDidMount() {
         this._isMounted = true;
-        // axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
-        // .then(fav => {
-        //     if(this._isMounted){
-        //         let favoriteSet = new Set(fav.data.map(item => item.chickenID));
-
-        //     }
-        // })
-        axios.get('http://127.0.0.1:8000/api/chickens/')
-        .then(res=> {
-            if (this._isMounted) {
-                axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
-                .then( fav => {
-                    // console.log(res.data)
-                    let favoriteSet = new Set(fav.data.map(item => item.chickenID));
-                    let mychickens = res.data.filter( v => {
-                        return favoriteSet.has(v.id)
+        axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+        .then(fav => {
+            if(this._isMounted){
+                let favoriteSet = new Set(fav.data.map(item => item.chickenID));
+                favoriteSet = [...favoriteSet]
+                favoriteSet.forEach( id => {
+                    axios.get('http://127.0.0.1:8000/api/chickens/'+id)
+                    .then( res => {
+                        if(this._isMounted){
+                            this.setState({
+                                chickens: this.state.chickens.concat(res.data)
+                            })
+                         }
                     })
-                    // console.log(mychickens)
-                    this.setState({
-                        chickens: mychickens
-                    })
-                    axios.get('http://127.0.0.1:8000/api/ranking/rec/'+localStorage.name)
-                    .then( rec => {
-                        let recommendSet = new Set(rec.data.map(item => item.chickenID));
-                        let recChickens = res.data.filter( v => {
-                            return recommendSet.has(v.id)
-                        })
-                        this.setState({
-                            recChickens: recChickens
-                        })
-                    })    
-
-
                 })
             }
         })
+        axios.get('http://127.0.0.1:8000/api/ranking/rec/'+localStorage.name)
+        .then(fav => {
+            if(this._isMounted){
+                let recommendSet = new Set(fav.data.map(item => item.chickenID));
+                recommendSet = [...recommendSet]
 
+                recommendSet.forEach( id => {
+                    axios.get('http://127.0.0.1:8000/api/chickens/'+id)
+                    .then( res => {
+                        if(this._isMounted){
+                            this.setState({
+                                recChickens: this.state.recChickens.concat(res.data)
+                            })
+                         }
+                    })
+                })
+            }
+        })
 
 
     }
@@ -65,7 +63,7 @@ class MyPage extends Component{
                     <div className="row">
                     {chickenList.length > 0 ? (chickenList.map( (chicken) => (
                       <div className="col s12 m6 l4" key={chicken.id}>
-                    <div className="card">
+                    <div className="card small">
                     <div className="card-image">
                         <img className="responsive-img"height="280" src={chicken.photo} alt=""/>
                     </div>
@@ -107,7 +105,7 @@ class MyPage extends Component{
                     <div className="row">
                     {recList.length > 0 ? (recList.map( (chicken) => (
                       <div className="col s12 m6 l4" key={chicken.id}>
-                    <div className="card">
+                    <div className="card small">
                     <div className="card-image">
                         <img className="responsive-img"height="280" src={chicken.photo} alt=""/>
                     </div>
