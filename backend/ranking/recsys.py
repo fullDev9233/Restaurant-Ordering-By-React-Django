@@ -7,8 +7,8 @@ import surprise
 
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
-# import django
-# django.setup()
+import django
+django.setup()
 
 from chickens.models import Rating, Shop, Item
 from .models import Ranking, Recommend
@@ -16,6 +16,17 @@ from .models import Ranking, Recommend
 
 class Recommender:
     def __init__(self):
+        #data to Dictionary 함수
+        #UserId를 담을 리스트 (중복X)
+        self.name_list = []
+        #치킨 목록을 담을 set (중복O)
+        self.chk_set = set()
+        self.rest_list = []
+        self.rating_dic = {
+            'username' : [],
+            'chickenID' : [],
+            'rating' : []
+        }
         return
 
     def make_record(self) :
@@ -23,7 +34,7 @@ class Recommender:
         if Ranking.objects.count() > 0:
             return
         else:
-            data = pd.read_csv('./Chicken_review.csv',encoding='CP949')
+            data = pd.read_csv('./Yreview.csv')
 
             #data 구조 to pandas DataFrame
             df = data[['Restaurant','UserID','Menu','Total']]
@@ -126,13 +137,6 @@ class Recommender:
 
         self.df = self.data[['username', 'chickenID', 'rating']]
 
-        #data to Dictionary 함수
-        #UserId를 담을 리스트 (중복X)
-        self.name_list = []
-        #치킨 목록을 담을 set (중복O)
-        self.chk_set = set()
-        self.rest_list = []
-
         def recur_dictify(frame):
             if len(frame.columns) == 1:
                 if frame.values.size == 1 : return frame.values[0][0]
@@ -154,12 +158,6 @@ class Recommender:
         #print(chk_set)
         # 리스트 화
         self.chk_list = list(self.chk_set)
-
-        self.rating_dic = {
-            'username' : [],
-            'chickenID' : [],
-            'rating' : []
-        }
 
         #사용자 수 만큼 반복
         for name_key in self.df_to_dict:
