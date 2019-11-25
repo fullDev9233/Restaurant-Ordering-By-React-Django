@@ -19,6 +19,7 @@ from ranking.serializers import RankingSerializer, RecommendSerializer
 from ranking.recsys import Recommender
 
 recm = Recommender()
+recm.make_record()
 recm.read_DB(0)
 
 
