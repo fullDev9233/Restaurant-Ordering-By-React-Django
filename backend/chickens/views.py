@@ -12,11 +12,23 @@ class ChickenListView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-@api_view(['GET'])
-def chicken_list_byShop(request, pk):
-    queryset = Item.objects.filter(shop=pk)
-    serializer = ItemSerializer(queryset, many=True)
-    return Response(serializer.data)
+    def get_queryset(self):
+        queryset = Item.objects.all()
+        shopid = self.request.query_params.get('shop', None)
+        if shopid is not None:
+            queryset = queryset.filter(shop=shopid)
+        return queryset
+
+# class ChickenListByShop(generics.ListAPIView):
+#     serializer_class = ItemSerializer
+#     def get_queryset(self):
+#         queryset = Item.objects.all()
+#         shopid = self.request.query_params.get(id, None)
+#         if shopid is not None:
+#             queryset = queryset.filter(shop=shopid)
+#         return queryset
+
+
 
 class ChickenDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Item.objects.all()

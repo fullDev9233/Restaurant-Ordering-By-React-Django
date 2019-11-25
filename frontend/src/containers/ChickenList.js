@@ -36,9 +36,7 @@ class SerachBrand extends Component{
             if (this._isMounted) {
                 axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
                 .then( res1 => {
-                    // console.log(res.data)
                     let resData = JSON.parse(JSON.stringify(res))
-                    console.log(resData.data.results)
                     let favoriteSet = new Set(res1.data.map(item => item.chickenID));
                     let mychickens = resData.data.results.filter( v => {
                         return !favoriteSet.has(v.id)
@@ -85,14 +83,14 @@ class SerachBrand extends Component{
     }
     handleChange = (e) => {
         this._isMounted = true;
-        axios.get('http://127.0.0.1:8000/api/shops/'+e.value)
+        axios.get('http://127.0.0.1:8000/api/chickens/?shop='+e.value)
         .then(res => {
             if(this._isMounted) {
                 axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
                 .then( res1 => {
                     console.log(res.data)
                     let favoriteSet = new Set(res1.data.map(item => item.chickenID));
-                    let mychickens = res.data.filter( v => {
+                    let mychickens = res.data.results.filter( v => {
                         return !favoriteSet.has(v.id)
                     })
                     // console.log(mychickens)
