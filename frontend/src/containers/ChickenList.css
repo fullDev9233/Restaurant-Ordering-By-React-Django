@@ -16,5 +16,6 @@
 
 img.responsive-img,
 video.responsive-video {
-  height: 252px
+  height: 252px;
+  width: auto
 }
