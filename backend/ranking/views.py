@@ -47,7 +47,6 @@ def ranking_detail(request, pk):
     """
     Retrieve, update or delete a code snippet.
     """
-    print(pk)
     try:
         ranking = Ranking.objects.filter(username=pk)
     except Ranking.DoesNotExist:
@@ -71,7 +70,6 @@ def ranking_detail(request, pk):
 
 @api_view(['GET'])
 def recommend_list(request, pk):
-    print(pk)
     recm.recsys(pk)
     recommend = Recommend.objects.filter(username=pk)
     serializer = RecommendSerializer(recommend, many=True)

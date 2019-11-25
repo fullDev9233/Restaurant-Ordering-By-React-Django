@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 from .models import Chicken, Item, Rating, Shop
 from .serializers import ChickenSerializer, ItemSerializer, RatingSerializer, ShopSerializer
@@ -10,17 +12,11 @@ class ChickenListView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-class ChickenListExView(generics.ListCreateAPIView):
-    queryset = Item.objects.exclude(photo='')[40:]
-    serializer_class = ItemSerializer
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-class ChickenListSmallView(generics.ListCreateAPIView):
-    queryset = Item.objects.exclude(photo='')[:40]
-    serializer_class = ItemSerializer
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+@api_view(['GET'])
+def chicken_list_byShop(request, pk):
+    queryset = Item.objects.filter(shop=pk)
+    serializer = ItemSerializer(queryset, many=True)
+    return Response(serializer.data)
 
 class ChickenDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Item.objects.all()
@@ -28,20 +24,9 @@ class ChickenDetailView(generics.RetrieveUpdateDestroyAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-class RatingListView(generics.ListCreateAPIView):
-    queryset = Rating.objects.all()
-    serializer_class = RatingSerializer
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-class RatingDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Rating.objects.all()
-    serializer_class = RatingSerializer
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
 class ShopListView(generics.ListCreateAPIView):
     queryset = Shop.objects.all()
     serializer_class = ShopSerializer
+    pagination_class = None
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

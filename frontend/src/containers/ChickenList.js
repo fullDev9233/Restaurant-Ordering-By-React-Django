@@ -11,6 +11,7 @@ class SerachBrand extends Component{
 
     state = {
         rating: 0,
+        brands: [],
         chickens: [],
         search: '',
     }
@@ -18,13 +19,24 @@ class SerachBrand extends Component{
     componentDidMount() {
         this._isMounted = true;
 
+        axios.get('http://127.0.0.1:8000/api/shops')
+        .then(res => {
+            let shops = res.data
+            console.log(shops)
+            this.setState({
+                brands: shops
+            })
+        })
         axios.get('http://127.0.0.1:8000/api/chickens/')
         .then(res=> {
             if (this._isMounted) {
                 axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
                 .then( res1 => {
+                    // console.log(res.data)
+                    let resData = JSON.parse(JSON.stringify(res))
+                    console.log(resData.data.results)
                     let favoriteSet = new Set(res1.data.map(item => item.chickenID));
-                    let mychickens = res.data.filter( v => {
+                    let mychickens = resData.data.results.filter( v => {
                         return !favoriteSet.has(v.id)
                     })
                     this.setState({
@@ -50,10 +62,28 @@ class SerachBrand extends Component{
         })
     }
     handleChange = (e) => {
-        this.setState({
-          search: e.value
-        });
-      }
+        this._isMounted = true;
+        axios.get('http://127.0.0.1:8000/api/shops/'+e.value)
+        .then(res => {
+            if(this._isMounted) {
+                axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+                .then( res1 => {
+                    console.log(res.data)
+                    let favoriteSet = new Set(res1.data.map(item => item.chickenID));
+                    let mychickens = res.data.filter( v => {
+                        return !favoriteSet.has(v.id)
+                    })
+                    // console.log(mychickens)
+                    this.setState({
+                        chickens: mychickens
+                    })
+                })
+            }
+        })
+        // this.setState({
+        //     search: e.value.name
+        // });
+    }
     render() {
 
         if(this.state.mychickens){
@@ -71,12 +101,16 @@ class SerachBrand extends Component{
         let chickenList = chickenRating.filter( chicken => {
             return chicken.shop.name.includes(this.state.search)
         })
-        let nameSet = new Set(this.state.chickens.map(item => item.shop.name));
         const options = [
             { value: '', label: 'all' }
-       
+    
         ]
-        nameSet.forEach(v => {options.push({value: v, label: v})});
+        if(this.state.brands) {
+            let nameSet = this.state.brands;
+            nameSet.forEach(v => {
+                options.push({value: v.id, label: v.name})
+            });
+        }
         return (
         <div>
             <section id="search" className="section serction-search darken-1 white-text center">
@@ -101,7 +135,7 @@ class SerachBrand extends Component{
                       <div className="col s12 m6 l4" key={chicken.id}>
                     <div className="card small">
                     <div className="card-image">
-                        <img className="responsive-img"height="280" src={chicken.photo} onError={(e)=>{ console.log(1); e.target.onerror = null; e.target.src="images/cimage.jpg"}} alt=""/>
+                        <img className="responsive-img" src={chicken.photo} onError={(e)=>{ console.log(1); e.target.onerror = null; e.target.src="images/cimage.jpg"}} alt=""/>
                     </div>
                     <div className="card-content">
                         <h6><b>{chicken.name.slice(0,15)}</b></h6>

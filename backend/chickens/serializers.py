@@ -9,7 +9,7 @@ class ChickenSerializer(serializers.ModelSerializer):
 class ShopSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
-        fields = ('name','photo')
+        fields = ('id', 'name','photo')
 
 class ItemSerializer(serializers.ModelSerializer):
     shop = ShopSerializer(read_only=True)
