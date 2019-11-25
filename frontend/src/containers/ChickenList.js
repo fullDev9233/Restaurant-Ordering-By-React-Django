@@ -18,10 +18,7 @@ class SerachBrand extends Component{
     
     componentDidMount() {
         this._isMounted = true;
-        // if (this.props.chickens.length===0){
-        //     this.props.fetchChicken()
 
-        // }
         axios.get('http://127.0.0.1:8000/api/shops')
         .then(res => {
             let shops = res.data
@@ -30,7 +27,6 @@ class SerachBrand extends Component{
                 brands: shops
             })
         })
-
         axios.get('http://127.0.0.1:8000/api/chickens/')
         .then(res=> {
             if (this._isMounted) {
@@ -41,7 +37,6 @@ class SerachBrand extends Component{
                     let mychickens = resData.data.results.filter( v => {
                         return !favoriteSet.has(v.id)
                     })
-                    // console.log(mychickens)
                     this.setState({
                         chickens: mychickens
                     })
@@ -49,23 +44,6 @@ class SerachBrand extends Component{
             }
         })
 
-        // axios.get('http://127.0.0.1:8000/api/chickens/')
-        // .then(res=> {
-        //     if (this._isMounted) {
-        //     this.setState({
-        //         chickens: res.data
-        //     })
-        // }
-        // })
-
-        // axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
-        // .then(res=> {
-        //     if (this._isMounted) {
-        //     this.setState({
-        //         mychickens: res.data
-        //     })
-        // }
-        // })
     }
 
     componentWillUnmount() {
@@ -112,7 +90,6 @@ class SerachBrand extends Component{
                 // console.log(!favoriteSet.has(v.id))
                 return !favoriteSet.has(v.id)
             })
-            // console.log(this.state.chickens)
         }
 
         let chickenRating = this.state.chickens.map( (v) => {
@@ -154,7 +131,7 @@ class SerachBrand extends Component{
                     <div className="row">
                     {chickenList.length > 0 ? (chickenList.map( (chicken) => (
                       <div className="col s12 m6 l4" key={chicken.id}>
-                    <div className="card">
+                    <div className="card small">
                     <div className="card-image">
                         <img className="responsive-img" src={chicken.photo} onError={(e)=>{ console.log(1); e.target.onerror = null; e.target.src="images/cimage.jpg"}} alt=""/>
                     </div>

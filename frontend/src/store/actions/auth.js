@@ -149,7 +149,6 @@ export const ratingSuccess = (username, itemname, rate) => {
 
 export const updateRate =  (username, itemname, rate) => {
     return (dispatch) => {
-        console.log(username, itemname, rate)
         axios.post('http://'+path+'/api/ranking/', {
             username: username,
             chickenID: itemname,
