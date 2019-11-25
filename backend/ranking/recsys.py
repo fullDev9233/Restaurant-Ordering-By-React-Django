@@ -7,15 +7,18 @@ import surprise
 
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
-import django
-django.setup()
+# import django
+# django.setup()
 
 from chickens.models import Rating, Shop, Item
 from .models import Ranking, Recommend
 
 
 class Recommender:
-    def __init__(self) :
+    def __init__(self):
+        return
+
+    def make_record(self) :
         self.data=pd.DataFrame(columns=['username', 'chickenID', 'rating'])
         if Ranking.objects.count() > 0:
             return
@@ -85,6 +88,21 @@ class Recommender:
                             ranking.save()
                         except Shop.DoesNotExist:
                             continue
+                        except Shop.MultipleObjectsReturned:
+                            length = len(list(Shop.objects.filter(name__contains=rest_key)))
+                            for i in range(length) :
+                                if i == 0 :
+                                    continue
+                                else :
+                                    temp = Shop.objects.filter(name__contains=rest_key)[i]
+                                    temp.delete()
+                            a4 = Shop.objects.get(name__contains=rest_key).id
+                            a5 = Item.objects.get(name=chk_key, shop=a4).id
+                            if type(a3) is not numpy.ndarray:
+                                ranking = Ranking(username=name_key, rate=a3, chickenID=a5)
+                            else:
+                                ranking = Ranking(username=name_key, rate=a3[0], chickenID=a5)
+                            ranking.save()
                         except Item.DoesNotExist:
                             continue
 

@@ -19,6 +19,8 @@ from ranking.serializers import RankingSerializer, RecommendSerializer
 from ranking.recsys import Recommender
 
 recm = Recommender()
+# Make these 2 lines as comment when migrate. This codes need when runserver
+recm.make_record()
 recm.read_DB(0)
 
 
