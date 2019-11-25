@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics
 
-from .models import Chicken, Item, Rating
-from .serializers import ChickenSerializer, ItemSerializer, RatingSerializer
+from .models import Chicken, Item, Rating, Shop
+from .serializers import ChickenSerializer, ItemSerializer, RatingSerializer, ShopSerializer
 
 class ChickenListView(generics.ListCreateAPIView):
     queryset = Item.objects.all()
@@ -11,7 +11,13 @@ class ChickenListView(generics.ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 class ChickenListExView(generics.ListCreateAPIView):
-    queryset = Item.objects.exclude(photo='')
+    queryset = Item.objects.exclude(photo='')[40:]
+    serializer_class = ItemSerializer
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class ChickenListSmallView(generics.ListCreateAPIView):
+    queryset = Item.objects.exclude(photo='')[:40]
     serializer_class = ItemSerializer
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -31,5 +37,11 @@ class RatingListView(generics.ListCreateAPIView):
 class RatingDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class ShopListView(generics.ListCreateAPIView):
+    queryset = Shop.objects.all()
+    serializer_class = ShopSerializer
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
