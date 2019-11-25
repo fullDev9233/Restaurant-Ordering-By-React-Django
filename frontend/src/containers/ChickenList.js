@@ -131,7 +131,7 @@ class SerachBrand extends Component{
                     <div className="row">
                     {chickenList.length > 0 ? (chickenList.map( (chicken) => (
                       <div className="col s12 m6 l4" key={chicken.id}>
-                    <div className="card small">
+                    <div className="card">
                     <div className="card-image">
                         <img className="responsive-img" src={chicken.photo} onError={(e)=>{ console.log(1); e.target.onerror = null; e.target.src="images/cimage.jpg"}} alt=""/>
                     </div>
