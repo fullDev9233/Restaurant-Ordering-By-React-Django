@@ -10,38 +10,15 @@ class ChickenListView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-class ChickenListExView(generics.ListCreateAPIView):
-    queryset = Item.objects.exclude(photo='')[40:]
-    serializer_class = ItemSerializer
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-class ChickenListSmallView(generics.ListCreateAPIView):
-    queryset = Item.objects.exclude(photo='')[:40]
-    serializer_class = ItemSerializer
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
 class ChickenDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-class RatingListView(generics.ListCreateAPIView):
-    queryset = Rating.objects.all()
-    serializer_class = RatingSerializer
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-class RatingDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Rating.objects.all()
-    serializer_class = RatingSerializer
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
 class ShopListView(generics.ListCreateAPIView):
     queryset = Shop.objects.all()
     serializer_class = ShopSerializer
+    pagination_class = None
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
