@@ -17,7 +17,7 @@ class MyPage extends Component{
                 .then( res1 => {
                     // console.log(res.data)
                     let favoriteSet = new Set(res1.data.map(item => item.chickenID));
-                    let mychickens = res.data.filter( v => {
+                    let mychickens = res.data.results.filter( v => {
                         return favoriteSet.has(v.id)
                     })
                     // console.log(mychickens)
