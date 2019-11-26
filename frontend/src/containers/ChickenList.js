@@ -228,16 +228,19 @@ class SerachBrand extends Component{
             
             }
                     </div>
-                    {this.state.next !== null ? (
-                        <div className="button" id="Next">
-                            <button type="button" onClick={this.handleNextPage}> Next </button>
-                        </div>
-                    ) : (
-                        <h6> No next page </h6>
-                    )}
+  
                 </div>
+                <div className="container center">
+                    {this.state.next !== null ? (
+                            <div className="button" id="Next">
+                                <button className="deep-orange lighten-3 btn" onClick={this.handleNextPage}> More </button>
+                            </div>
+                        ) : (
+                            <h6> No next page </h6>
+                        )}            
+                 </div>
             </section>
-
+    
         </div>
         )
 
