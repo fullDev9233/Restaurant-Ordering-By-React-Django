@@ -14,3 +14,22 @@
 
 }
 
+img.responsive-img,
+video.responsive-video {
+  height: 252px;
+  width: 100%
+}
+
+@media only screen and (max-width: 1240px) {
+  img.responsive-img,
+  video.responsive-video {
+    height: 150px;
+    width: 100%;
+  }
+  h6 b{
+    font-size: 0.9rem
+  }
+  .card-content {
+    font-size: 0.8rem
+  }
+}

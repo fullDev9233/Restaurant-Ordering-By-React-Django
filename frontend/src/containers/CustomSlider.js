@@ -22,29 +22,29 @@ class CustomSlider extends Component{
                 <li>
                     <img src="images/image1.jpg" alt="slider"/>
                     <div className="caption center-align">
-                    <h3><b>This is our big Tagline!</b></h3>
-                    <h5 className="light grey-text text-lighten-3"><b>Here's our small slogan.</b></h5>
+                    <h3><b></b></h3>
+                    <h5 className="light grey-text text-lighten-3"><b></b></h5>
                     </div>
                 </li>
                 <li>
                     <img src="images/image2.jpg" alt="slider"/>
                     <div className="caption left-align">
-                    <h3><b>Left Aligned Caption</b></h3>
-                    <h5 className="light grey-text text-lighten-3"><b>Here's our small slogan.</b></h5>
+                    <h3><b></b></h3>
+                    <h5 className="light grey-text text-lighten-3"><b></b></h5>
                     </div>
                 </li>
                 <li>
                     <img src="images/image3.jpg" alt="slider"/>
                     <div className="caption right-align">
-                    <h3><b>Right Aligned Caption</b></h3>
-                    <h5 className="light grey-text text-lighten-3"><b>Here's our small slogan.</b></h5>
+                    <h3><b></b></h3>
+                    <h5 className="light grey-text text-lighten-3"><b></b></h5>
                     </div>
                 </li>
                 <li>
                     <img src="images/image4.jpg" alt="slider"/>
                     <div className="caption center-align">
-                    <h3><b>This is our big Tagline!</b></h3>
-                    <h5 className="light grey-text text-lighten-3"><b>Here's our small slogan.</b></h5>
+                    <h3><b></b></h3>
+                    <h5 className="light grey-text text-lighten-3"><b></b></h5>
                     </div>
                 </li>
                 </ul>

@@ -28,6 +28,8 @@ export const authFail = error => {
 export const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
+    localStorage.removeItem('name');
+
     return {
         type: actionTypes.AUTH_LOGOUT
     }
@@ -52,6 +54,7 @@ export const authLogin =  (username, password, callback) => {
             const token = res.data.key;
             const expirationDate = new Date(new Date().getTime() + 3600 * 1000 );
             localStorage.setItem('token', token);
+            localStorage.setItem('name', username);
             localStorage.setItem('expirationDate',expirationDate);
             dispatch(authSuccess(token, username));
             dispatch(checkAuthTimeout(3600));
@@ -78,6 +81,8 @@ export const authSignup = (username, email, password1, password2) => {
             const expirationDate = new Date(new Date().getTime() + 3600 * 1000 );
             localStorage.setItem('token', token);
             localStorage.setItem('expirationDate',expirationDate);
+            localStorage.setItem('name',username);
+
             dispatch(authSuccess(token));
             dispatch(checkAuthTimeout(3600));
         })
@@ -132,3 +137,28 @@ export const fetchChicken =  () => {
         })
     }
 }
+
+export const ratingSuccess = (username, itemname, rate) => {
+    return {
+        type: actionTypes.RATING_SUCCESS,
+        username: username,
+        chickenID: itemname,
+        rate : rate
+    }
+}
+
+export const updateRate =  (username, itemname, rate) => {
+    return (dispatch) => {
+        axios.post('http://'+path+'/api/ranking/', {
+            username: username,
+            chickenID: itemname,
+            rate : rate
+        })
+        .then(res => {
+            //dispatch(ratingSuccess(username, itemname, rate))
+        })
+        .catch()
+    }
+}
+
+
