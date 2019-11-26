@@ -63,7 +63,7 @@ class MyPage extends Component{
                     <div className="row">
                     {chickenList.length > 0 ? (chickenList.map( (chicken) => (
                       <div className="col s12 m6 l4" key={chicken.id}>
-                    <div className="card small">
+                    <div className="card">
                     <div className="card-image">
                         <img className="responsive-img"height="280" src={chicken.photo} alt=""/>
                     </div>
@@ -105,7 +105,7 @@ class MyPage extends Component{
                     <div className="row">
                     {recList.length > 0 ? (recList.map( (chicken) => (
                       <div className="col s12 m6 l4" key={chicken.id}>
-                    <div className="card small">
+                    <div className="card">
                     <div className="card-image">
                         <img className="responsive-img"height="280" src={chicken.photo} alt=""/>
                     </div>

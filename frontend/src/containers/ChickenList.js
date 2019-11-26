@@ -14,6 +14,8 @@ class SerachBrand extends Component{
         brands: [],
         chickens: [],
         search: '',
+        next: '',
+        previous: '',
     }
     
     componentDidMount() {
@@ -36,10 +38,14 @@ class SerachBrand extends Component{
                 .then( res1 => {
                     let resData = JSON.parse(JSON.stringify(res))
                     let favoriteSet = new Set(res1.data.map(item => item.chickenID));
+                    let nextPage = resData.data.next
+                    let previousPage = resData.data.previous
                     let mychickens = resData.data.results.filter( v => {
                         return !favoriteSet.has(v.id)
                     })
                     this.setState({
+                        next: nextPage,
+                        previous: previousPage,
                         chickens: mychickens
                     })
                 })
@@ -59,6 +65,32 @@ class SerachBrand extends Component{
         this.setState({
             chickens: mychickens,
 
+        })
+    }
+    handleNextPage = (e) => {
+        this._isMounted = true;
+        console.log(e)
+        axios.get(this.state.next)
+        .then( res => {
+            axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+                    .then( res1 => {
+                        let resData = JSON.parse(JSON.stringify(res))
+                        let favoriteSet = new Set(res1.data.map(item => item.chickenID));
+                        let nextPage = resData.data.next
+                        let previousPage = resData.data.previous
+                        let mychickens = resData.data.results.filter( v => {
+                            return !favoriteSet.has(v.id)
+                        })
+                        let chickensList = this.state.chickens
+                        mychickens.forEach(item => {
+                            chickensList.push(item)
+                        })
+                        this.setState({
+                            next: nextPage,
+                            previos: previousPage,
+                            chickens: chickensList
+                        })
+                    })
         })
     }
     handleChange = (e) => {
@@ -196,6 +228,13 @@ class SerachBrand extends Component{
             
             }
                     </div>
+                    {this.state.next !== null ? (
+                        <div className="button" id="Next">
+                            <button type="button" onClick={this.handleNextPage}> Next </button>
+                        </div>
+                    ) : (
+                        <h6> No next page </h6>
+                    )}
                 </div>
             </section>
 
