@@ -102,11 +102,16 @@ class SerachBrand extends Component{
                     axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
                     .then( res1 => {
                         let resData = JSON.parse(JSON.stringify(res))
+                        let nextPage = resData.data.next
+                        let previousPage = resData.data.previous
+                        console.log(nextPage)
                         let favoriteSet = new Set(res1.data.map(item => item.chickenID));
                         let mychickens = resData.data.results.filter( v => {
                             return !favoriteSet.has(v.id)
                         })
                         this.setState({
+                            next: nextPage,
+                            previos: previousPage,
                             chickens: mychickens
                         })
                     })
@@ -118,13 +123,16 @@ class SerachBrand extends Component{
             if(this._isMounted) {
                 axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
                 .then( res1 => {
-                    console.log(res.data)
+                    let nextPage = res.data.next
+                    let previousPage = res.data.previous
                     let favoriteSet = new Set(res1.data.map(item => item.chickenID));
                     let mychickens = res.data.results.filter( v => {
                         return !favoriteSet.has(v.id)
                     })
                     // console.log(mychickens)
                     this.setState({
+                        next: nextPage,
+                        previos: previousPage,
                         chickens: mychickens
                     })
                 })
