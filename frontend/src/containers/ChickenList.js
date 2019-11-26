@@ -5,56 +5,171 @@ import StarRatings from 'react-star-ratings';
 import Select from 'react-select'
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth'
-
+import axios from 'axios'
 class SerachBrand extends Component{
     _isMounted = false;
 
     state = {
         rating: 0,
-        // chickens: [],
+        brands: [],
+        chickens: [],
         search: '',
+        next: '',
+        previous: '',
     }
     
     componentDidMount() {
         this._isMounted = true;
-        if (this.props.chickens.length===0){
-            this.props.fetchChicken()
 
-        }
-        // axios.get('http://127.0.0.1:8000/api/chickens/')
-        // .then(res=> {
-        //     if (this._isMounted) {
-        //     this.setState({
-        //         chickens: res.data
-        //     })
-        // }
-        // })
+        axios.get('http://127.0.0.1:8000/api/shops')
+        .then(res => {
+            if (this._isMounted) {
+                let shops = res.data
+                console.log(shops)
+                this.setState({
+                    brands: shops
+                })
+             }
+        })
+        axios.get('http://127.0.0.1:8000/api/chickens/')
+        .then(res=> {
+            if (this._isMounted) {
+                axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+                .then( res1 => {
+                    let resData = JSON.parse(JSON.stringify(res))
+                    let favoriteSet = new Set(res1.data.map(item => item.chickenID));
+                    let nextPage = resData.data.next
+                    let previousPage = resData.data.previous
+                    let mychickens = resData.data.results.filter( v => {
+                        return !favoriteSet.has(v.id)
+                    })
+                    this.setState({
+                        next: nextPage,
+                        previous: previousPage,
+                        chickens: mychickens
+                    })
+                })
+            }
+        })
+
     }
 
     componentWillUnmount() {
         this._isMounted = false;
       }
     changeRating = ( newRating, name ) => {
+        let mychickens = this.state.chickens.filter( v => {
+            return v.id!=name
+        })
+        this.props.updateRate(localStorage.name, name, newRating)
         this.setState({
-            rating: newRating
+            chickens: mychickens,
 
         })
     }
-    handleChange = (e) => {
-        this.setState({
-          search: e.value
-        });
-      }
-    render() {
-        const chickenList = this.props.chickens.filter( chicken => {
-            return chicken.brand.includes(this.state.search)
+    handleNextPage = (e) => {
+        this._isMounted = true;
+        console.log(e)
+        axios.get(this.state.next)
+        .then( res => {
+            axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+                    .then( res1 => {
+                        let resData = JSON.parse(JSON.stringify(res))
+                        let favoriteSet = new Set(res1.data.map(item => item.chickenID));
+                        let nextPage = resData.data.next
+                        let previousPage = resData.data.previous
+                        let mychickens = resData.data.results.filter( v => {
+                            return !favoriteSet.has(v.id)
+                        })
+                        let chickensList = this.state.chickens
+                        mychickens.forEach(item => {
+                            chickensList.push(item)
+                        })
+                        this.setState({
+                            next: nextPage,
+                            previos: previousPage,
+                            chickens: chickensList
+                        })
+                    })
         })
-        let nameSet = new Set(this.props.chickens.map(item => item.brand));
+    }
+    handleChange = (e) => {
+        this._isMounted = true;
+        if(e.value === 0){
+            axios.get('http://127.0.0.1:8000/api/chickens/')
+            .then(res=> {
+                if (this._isMounted) {
+                    axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+                    .then( res1 => {
+                        let resData = JSON.parse(JSON.stringify(res))
+                        let nextPage = resData.data.next
+                        let previousPage = resData.data.previous
+                        console.log(nextPage)
+                        let favoriteSet = new Set(res1.data.map(item => item.chickenID));
+                        let mychickens = resData.data.results.filter( v => {
+                            return !favoriteSet.has(v.id)
+                        })
+                        this.setState({
+                            next: nextPage,
+                            previos: previousPage,
+                            chickens: mychickens
+                        })
+                    })
+                }
+            })
+        }else{
+        axios.get('http://127.0.0.1:8000/api/chickens/?shop='+e.value)
+        .then(res => {
+            if(this._isMounted) {
+                axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+                .then( res1 => {
+                    let nextPage = res.data.next
+                    let previousPage = res.data.previous
+                    let favoriteSet = new Set(res1.data.map(item => item.chickenID));
+                    let mychickens = res.data.results.filter( v => {
+                        return !favoriteSet.has(v.id)
+                    })
+                    // console.log(mychickens)
+                    this.setState({
+                        next: nextPage,
+                        previos: previousPage,
+                        chickens: mychickens
+                    })
+                })
+            }
+        })
+    }
+        // this.setState({
+        //     search: e.value.name
+        // });
+    }
+    render() {
+
+        if(this.state.mychickens){
+            let favoriteSet = new Set(this.state.mychickens.map(item => item.chickenID));
+            this.state.chickens = this.state.chickens.filter( v => {
+                // console.log(!favoriteSet.has(v.id))
+                return !favoriteSet.has(v.id)
+            })
+        }
+
+        let chickenRating = this.state.chickens.map( (v) => {
+            v.rating = 0
+            return v
+        })
+        let chickenList = chickenRating.filter( chicken => {
+            return chicken.shop.name.includes(this.state.search)
+        })
         const options = [
-            { value: '', label: 'all' }
-       
+            { value: 0, label: 'all' }
+    
         ]
-        nameSet.forEach(v => {options.push({value: v, label: v})});
+        if(this.state.brands) {
+            let nameSet = this.state.brands;
+            nameSet.forEach(v => {
+                options.push({value: v.id, label: v.name})
+            });
+        }
         return (
         <div>
             <section id="search" className="section serction-search darken-1 white-text center">
@@ -79,20 +194,21 @@ class SerachBrand extends Component{
                       <div className="col s12 m6 l4" key={chicken.id}>
                     <div className="card">
                     <div className="card-image">
-                        <img className="responsive-img"height="280" src="images/cimage.jpg" alt=""/>
+                        <img className="responsive-img" src={chicken.photo} onError={(e)=>{ console.log(1); e.target.onerror = null; e.target.src="images/cimage.jpg"}} alt=""/>
                     </div>
                     <div className="card-content">
-                            <h6><b>{chicken.name}</b></h6>
-                        brand : {chicken.brand}
+                        <h6><b>{chicken.name.slice(0,15)}</b></h6>
+                        brand : {chicken.shop.name}
                         <br></br>
                         <StarRatings
-                        rating={this.state.rating}
+                        rating={chicken.rating}
                         starRatedColor="blue"
                         changeRating={this.changeRating}
                         numberOfStars={5}
                         starDimension="20px"
                         starSpacing="2px"
-                        name='rating'
+                        name={chicken.id.toString()}
+                        
                         />
                         
                     </div>
@@ -103,15 +219,36 @@ class SerachBrand extends Component{
                 <div className="card-content">
                     <h6><b>NO DATA</b></h6>
                 </div>
+                <div className="preloader-wrapper active">
+                    <div className="spinner-layer spinner-red-only">
+                    <div className="circle-clipper left">
+                        <div className="circle"></div>
+                    </div><div className="gap-patch">
+                        <div className="circle"></div>
+                    </div><div className="circle-clipper right">
+                        <div className="circle"></div>
+                    </div>
+                    </div>
+                </div>
             </div>
       
             )
             
             }
                     </div>
+  
                 </div>
+                <div className="container center">
+                    {this.state.next !== null ? (
+                            <div className="button" id="Next">
+                                <button className="deep-orange lighten-3 btn" onClick={this.handleNextPage}> More </button>
+                            </div>
+                        ) : (
+                            <h6> No next page </h6>
+                        )}            
+                 </div>
             </section>
-
+    
         </div>
         )
 
@@ -124,12 +261,14 @@ class SerachBrand extends Component{
 const mapStateToProps = (state) => {
     return {
         chickens: state.chickens,
+        name : state.username,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchChicken: () => dispatch(actions.fetchChicken())
+        fetchChicken: () => dispatch(actions.fetchChicken()),
+        updateRate: (username, itemname, rate) =>dispatch(actions.updateRate(username,itemname,rate)),
     }
 }
 // export default SerachBrand;

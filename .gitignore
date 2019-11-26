@@ -1,3 +1,5 @@
+
+images
 #Ignore files for node-js
 # Logs
 logs
@@ -169,3 +171,5 @@ ENV/
 .mypy_cache/
 
 .vscode
+
+mergeUpstream.sh

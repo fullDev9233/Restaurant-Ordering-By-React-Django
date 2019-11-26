@@ -46,6 +46,11 @@ const fetchChicken = (state, action) => {
         chickens: action.payload
     });
 }
+
+const changeRate = (state, action) => {
+    console.log(state, action)
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.AUTH_START: return authStart(state,action);
@@ -53,6 +58,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.AUTH_FAIL: return authFail(state,action);
         case actionTypes.AUTH_LOGOUT: return authLogout(state,action);
         case actionTypes.FETCH_SUCCESS: return fetchChicken(state,action);
+        case actionTypes.RATING_SUCCESS : return changeRate(state,action);
         default:
             return state;
     }
