@@ -21,11 +21,13 @@ class SerachBrand extends Component{
 
         axios.get('http://127.0.0.1:8000/api/shops')
         .then(res => {
-            let shops = res.data
-            console.log(shops)
-            this.setState({
-                brands: shops
-            })
+            if (this._isMounted) {
+                let shops = res.data
+                console.log(shops)
+                this.setState({
+                    brands: shops
+                })
+             }
         })
         axios.get('http://127.0.0.1:8000/api/chickens/')
         .then(res=> {
@@ -61,6 +63,24 @@ class SerachBrand extends Component{
     }
     handleChange = (e) => {
         this._isMounted = true;
+        if(e.value === 0){
+            axios.get('http://127.0.0.1:8000/api/chickens/')
+            .then(res=> {
+                if (this._isMounted) {
+                    axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+                    .then( res1 => {
+                        let resData = JSON.parse(JSON.stringify(res))
+                        let favoriteSet = new Set(res1.data.map(item => item.chickenID));
+                        let mychickens = resData.data.results.filter( v => {
+                            return !favoriteSet.has(v.id)
+                        })
+                        this.setState({
+                            chickens: mychickens
+                        })
+                    })
+                }
+            })
+        }else{
         axios.get('http://127.0.0.1:8000/api/chickens/?shop='+e.value)
         .then(res => {
             if(this._isMounted) {
@@ -78,6 +98,7 @@ class SerachBrand extends Component{
                 })
             }
         })
+    }
         // this.setState({
         //     search: e.value.name
         // });
@@ -100,7 +121,7 @@ class SerachBrand extends Component{
             return chicken.shop.name.includes(this.state.search)
         })
         const options = [
-            { value: '', label: 'all' }
+            { value: 0, label: 'all' }
     
         ]
         if(this.state.brands) {
