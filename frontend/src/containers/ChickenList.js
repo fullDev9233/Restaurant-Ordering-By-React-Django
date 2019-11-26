@@ -102,11 +102,16 @@ class SerachBrand extends Component{
                     axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
                     .then( res1 => {
                         let resData = JSON.parse(JSON.stringify(res))
+                        let nextPage = resData.data.next
+                        let previousPage = resData.data.previous
+                        console.log(nextPage)
                         let favoriteSet = new Set(res1.data.map(item => item.chickenID));
                         let mychickens = resData.data.results.filter( v => {
                             return !favoriteSet.has(v.id)
                         })
                         this.setState({
+                            next: nextPage,
+                            previos: previousPage,
                             chickens: mychickens
                         })
                     })
@@ -118,13 +123,16 @@ class SerachBrand extends Component{
             if(this._isMounted) {
                 axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
                 .then( res1 => {
-                    console.log(res.data)
+                    let nextPage = res.data.next
+                    let previousPage = res.data.previous
                     let favoriteSet = new Set(res1.data.map(item => item.chickenID));
                     let mychickens = res.data.results.filter( v => {
                         return !favoriteSet.has(v.id)
                     })
                     // console.log(mychickens)
                     this.setState({
+                        next: nextPage,
+                        previos: previousPage,
                         chickens: mychickens
                     })
                 })
@@ -228,16 +236,19 @@ class SerachBrand extends Component{
             
             }
                     </div>
-                    {this.state.next !== null ? (
-                        <div className="button" id="Next">
-                            <button type="button" onClick={this.handleNextPage}> Next </button>
-                        </div>
-                    ) : (
-                        <h6> No next page </h6>
-                    )}
+  
                 </div>
+                <div className="container center">
+                    {this.state.next !== null ? (
+                            <div className="button" id="Next">
+                                <button className="deep-orange lighten-3 btn" onClick={this.handleNextPage}> More </button>
+                            </div>
+                        ) : (
+                            <h6> No next page </h6>
+                        )}            
+                 </div>
             </section>
-
+    
         </div>
         )
 
