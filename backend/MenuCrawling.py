@@ -116,7 +116,7 @@ for shop in Shop.objects.all():
                     
                     # print('saving item : {}'.format(item.name))
                     item.save()
-                 else :
+                else :
                     pass
             else :
                 continue
