@@ -10,13 +10,13 @@ class MyPage extends Component{
     }
     componentDidMount() {
         this._isMounted = true;
-        axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+        axios.get('http://ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000/api/ranking/'+localStorage.name)
         .then(fav => {
             if(this._isMounted){
                 let favoriteSet = new Set(fav.data.map(item => item.chickenID));
                 favoriteSet = [...favoriteSet]
                 favoriteSet.forEach( id => {
-                    axios.get('http://127.0.0.1:8000/api/chickens/'+id)
+                    axios.get('http://ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000/api/chickens/'+id)
                     .then( res => {
                         if(this._isMounted){
                             this.setState({
@@ -27,14 +27,14 @@ class MyPage extends Component{
                 })
             }
         })
-        axios.get('http://127.0.0.1:8000/api/ranking/rec/'+localStorage.name)
+        axios.get('http://ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000/api/ranking/rec/'+localStorage.name)
         .then(fav => {
             if(this._isMounted){
                 let recommendSet = new Set(fav.data.map(item => item.chickenID));
                 recommendSet = [...recommendSet]
 
                 recommendSet.forEach( id => {
-                    axios.get('http://127.0.0.1:8000/api/chickens/'+id)
+                    axios.get('http://ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000/api/chickens/'+id)
                     .then( res => {
                         if(this._isMounted){
                             this.setState({

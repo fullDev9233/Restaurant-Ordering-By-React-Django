@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
 const deploy = false;
-const path = deploy ? '13.123.123.12:8000' : '127.0.0.1:8000'
+const path = deploy ? '13.123.123.12:8000' : 'ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000'
 
 export const authStart = () => {
     return {

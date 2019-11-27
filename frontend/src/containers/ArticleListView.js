@@ -10,7 +10,7 @@ class ArticleList extends React.Component{
     }
 
     componentDidMount() {
-        axios.get('http://127.0.0.1:8000/api/')
+        axios.get('http://ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000/api/')
         .then(res=> {
             this.setState({
                 articles: res.data
