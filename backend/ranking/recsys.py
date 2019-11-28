@@ -194,7 +194,7 @@ class Recommender:
         #Trainset에 입력한 Data로 학습
         trainset = self.data.build_full_trainset()
         option = {'name':'pearson'}
-        self.algo = surprise.KNNBasic(sim_options=option) #KNN 유사도 알고리즘 사용
+        self.algo = surprise.KNNBaseline(sim_options=option) #KNN 유사도 알고리즘 사용
 
         self.algo.fit(trainset)
 
@@ -207,7 +207,8 @@ class Recommender:
         # print('user_index:',index)
         # print('\n')
 
-        result = self.algo.get_neighbors(index, k=5) #Knn 모델의 K값 '5'로 지정 유사사용자 5명으로부터 화장품 추천
+        result = self.algo.get_neighbors(index, k=7) #Knn 모델의 K값 '7'로 지정 유사사용자 7명으로부터 치킨 추천
+
         # print('치킨 취향이 비슷한 사용자 : ',result)
         # print('\n')
 
