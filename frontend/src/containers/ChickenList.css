@@ -20,6 +20,23 @@ video.responsive-video {
   width: 100%
 }
 
+.card {
+  height:23rem
+}
+
+h6 {
+  line-height: 1rem
+}
+
+h6 b {
+  font-size:1.0rem
+}
+
+.card .card-content {
+  padding: 0;
+  margin: 1rem
+}
+
 @media only screen and (max-width: 1240px) {
   img.responsive-img,
   video.responsive-video {
