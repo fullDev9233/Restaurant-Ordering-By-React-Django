@@ -218,12 +218,23 @@ class Recommender:
             max_rating=self.data.df[self.data.df["username"]==r1]["rating"].max()
             chk_id=self.data.df[(self.data.df["rating"]==max_rating)&(self.data.df["username"]==r1)]["chickenID"].values
             
-            for chk_item in chk_id:
-                val = Item.objects.get(id=self.chk_list[chk_item])
-                try:
-                    Recommend.objects.get(username=searchname, chickenID=val.id)
-                except:
-                    recm_chicken = Recommend(username=searchname, chickenID=val.id)
-                    recm_chicken.save()
-                else:
-                    continue;
+
+            rec_ID = chk_id[:1]
+            val = Item.objects.get(id=self.chk_list[rec_ID])
+            try:
+                Recommend.objects.get(username=searchname, chickenID=val.id)
+            except:
+                recm_chicken = Recommend(username=searchname, chickenID=val.id)
+                recm_chicken.save()
+            else:
+                continue;
+
+            # for chk_item in chk_id:
+            #     val = Item.objects.get(id=self.chk_list[chk_item])
+            #     try:
+            #         Recommend.objects.get(username=searchname, chickenID=val.id)
+            #     except:
+            #         recm_chicken = Recommend(username=searchname, chickenID=val.id)
+            #         recm_chicken.save()
+            #     else:
+            #         continue;
