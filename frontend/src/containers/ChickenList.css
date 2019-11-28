@@ -37,6 +37,10 @@ h6 b {
   margin: 1rem
 }
 
+nav .brand-logo i {
+  color: black
+}
+
 @media only screen and (max-width: 1240px) {
   img.responsive-img,
   video.responsive-video {

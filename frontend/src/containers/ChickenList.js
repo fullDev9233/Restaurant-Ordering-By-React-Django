@@ -1,6 +1,6 @@
 import React ,{Component} from 'react'
+import './ChickenList.css';
 import "materialize-css/dist/css/materialize.min.css";
-import './ChickenList.css'
 import StarRatings from 'react-star-ratings';
 import Select from 'react-select'
 import { connect } from 'react-redux';

@@ -1,5 +1,6 @@
 import React ,{Component} from 'react'
 import { connect } from 'react-redux';
+import './ChickenList.css'
 import * as actions from '../store/actions/auth'
 import axios from 'axios'
 class MyPage extends Component{
