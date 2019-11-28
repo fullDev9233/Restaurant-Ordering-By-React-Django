@@ -22,7 +22,8 @@ class DashboardLayout extends Component {
                 <nav className="white">
                     <div className="container">
                     <div className="nav-wrapper">
-                        <Link to="/" className="brand-logo"><i className="hide-on-med-and-down black-text black-icon material-icons">thumb_up</i><b className="black-text">chickenUp</b></Link>
+                        <Link to="/" className="brand-logo"><i className="fas fa-drumstick-bite"></i>
+                        <b className="black-text">chickenUp</b></Link>
                         <Link to="/" className="sidenav-trigger" data-target="mobile-nav">
                         <i className="material-icons black-text black-icon">menu</i>
                         </Link>
