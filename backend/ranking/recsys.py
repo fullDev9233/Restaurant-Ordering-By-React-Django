@@ -219,7 +219,8 @@ class Recommender:
             chk_id=self.data.df[(self.data.df["rating"]==max_rating)&(self.data.df["username"]==r1)]["chickenID"].values
             
 
-            rec_ID = chk_id[:1]
+            rec_ID = chk_id[:1][0]
+            print(rec_ID)
             val = Item.objects.get(id=self.chk_list[rec_ID])
             try:
                 Recommend.objects.get(username=searchname, chickenID=val.id)
