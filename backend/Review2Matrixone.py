@@ -136,10 +136,17 @@ reader = surprise.Reader(rating_scale=(1,5))
 col_list = ['UserID','Menu','Total']
 data = surprise.Dataset.load_from_df(df[col_list], reader)
 
+bsl_options1 = {
+    'method': 'als',
+    'n_epochs': 5,
+    'reg_u': 12,
+    'reg_i': 5
+}
+
 #Trainset에 입력한 Data로 학습
 trainset = data.build_full_trainset()
 option = {'name':'pearson'}
-algo = surprise.KNNBasic(sim_options=option) #KNN 유사도 알고리즘 사용
+algo = surprise.KNNBaseline(sim_options=option,bsl_options = bsl_options1) #KNN BaseLine 유사도 알고리즘 사용
 
 algo.fit(trainset)
 
@@ -151,7 +158,7 @@ index = name_list.index(who)
 print('user_index:',index)
 print('\n')
 
-result = algo.get_neighbors(index, k=5) #Knn 모델의 K값 '5'로 지정 유사사용자 5명으로부터 화장품 추천
+result = algo.get_neighbors(index, k=7) #Knn 모델의 K값 '7'로 지정 유사사용자 7명으로부터 치킨 추천
 print('치킨 취향이 비슷한 사용자 : ',result)
 print('\n')
 

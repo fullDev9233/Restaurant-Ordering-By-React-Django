@@ -16,8 +16,29 @@
 
 img.responsive-img,
 video.responsive-video {
-  height: 252px;
-  width: 100%
+  height: 252px!important;
+  width: 100%!important
+}
+
+.card {
+  height:23rem!important
+}
+
+h6 {
+  line-height: 1rem!important
+}
+
+h6 b {
+  font-size:1.0rem!important
+}
+
+.card .card-content {
+  padding: 0!important;
+  margin: 1rem!important
+}
+
+nav .brand-logo i {
+  color: black
 }
 
 @media only screen and (max-width: 1240px) {

@@ -9,7 +9,7 @@ class CustomForm extends React.Component {
         const content = event.target.elements.content.value;
         switch( requestType){
             case 'post':
-                axios.post('http://127.0.0.1:8000/api/',{
+                axios.post('http://ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000/api/',{
                     title: title,
                     content: content
                 })
@@ -17,7 +17,7 @@ class CustomForm extends React.Component {
                 .catch(err => console.log(err));
                 break;
             case 'put':
-                axios.put(`http://127.0.0.1:8000/api/${articleID}`,{
+                axios.put(`http://ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000/api/${articleID}`,{
                     title: title,
                     content: content
                 })

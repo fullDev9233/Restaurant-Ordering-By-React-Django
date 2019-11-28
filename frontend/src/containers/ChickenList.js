@@ -1,6 +1,6 @@
 import React ,{Component} from 'react'
+import './ChickenList.css';
 import "materialize-css/dist/css/materialize.min.css";
-import './ChickenList.css'
 import StarRatings from 'react-star-ratings';
 import Select from 'react-select'
 import { connect } from 'react-redux';
@@ -21,7 +21,7 @@ class SerachBrand extends Component{
     componentDidMount() {
         this._isMounted = true;
 
-        axios.get('http://127.0.0.1:8000/api/shops')
+        axios.get('http://ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000/api/shops')
         .then(res => {
             if (this._isMounted) {
                 let shops = res.data
@@ -31,10 +31,10 @@ class SerachBrand extends Component{
                 })
              }
         })
-        axios.get('http://127.0.0.1:8000/api/chickens/')
+        axios.get('http://ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000/api/chickens/')
         .then(res=> {
             if (this._isMounted) {
-                axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+                axios.get('http://ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000/api/ranking/'+localStorage.name)
                 .then( res1 => {
                     let resData = JSON.parse(JSON.stringify(res))
                     let favoriteSet = new Set(res1.data.map(item => item.chickenID));
@@ -72,7 +72,7 @@ class SerachBrand extends Component{
         console.log(e)
         axios.get(this.state.next)
         .then( res => {
-            axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+            axios.get('http://ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000/api/ranking/'+localStorage.name)
                     .then( res1 => {
                         let resData = JSON.parse(JSON.stringify(res))
                         let favoriteSet = new Set(res1.data.map(item => item.chickenID));
@@ -96,10 +96,10 @@ class SerachBrand extends Component{
     handleChange = (e) => {
         this._isMounted = true;
         if(e.value === 0){
-            axios.get('http://127.0.0.1:8000/api/chickens/')
+            axios.get('http://ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000/api/chickens/')
             .then(res=> {
                 if (this._isMounted) {
-                    axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+                    axios.get('http://ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000/api/ranking/'+localStorage.name)
                     .then( res1 => {
                         let resData = JSON.parse(JSON.stringify(res))
                         let nextPage = resData.data.next
@@ -118,10 +118,10 @@ class SerachBrand extends Component{
                 }
             })
         }else{
-        axios.get('http://127.0.0.1:8000/api/chickens/?shop='+e.value)
+        axios.get('http://ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000/api/chickens/?shop='+e.value)
         .then(res => {
             if(this._isMounted) {
-                axios.get('http://127.0.0.1:8000/api/ranking/'+localStorage.name)
+                axios.get('http://ec2-54-180-8-64.ap-northeast-2.compute.amazonaws.com:8000/api/ranking/'+localStorage.name)
                 .then( res1 => {
                     let nextPage = res.data.next
                     let previousPage = res.data.previous
