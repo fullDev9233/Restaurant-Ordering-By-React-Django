@@ -16,10 +16,8 @@ from .models import Ranking, Recommend
 
 class Recommender:
     def __init__(self):
-        #data to Dictionary 함수
-        #UserId를 담을 리스트 (중복X)
+        self.DBdata=pd.DataFrame(columns=['username', 'chickenID', 'rating'])
         self.name_list = []
-        #치킨 목록을 담을 set (중복O)
         self.chk_set = set()
         self.rest_list = []
         self.rating_dic = {
@@ -30,7 +28,7 @@ class Recommender:
         return
 
     def make_record(self) :
-        self.data=pd.DataFrame(columns=['username', 'chickenID', 'rating'])
+        # data=pd.DataFrame(columns=['username', 'chickenID', 'rating'])
         if Ranking.objects.count() > 0:
             return
         else:
@@ -119,23 +117,22 @@ class Recommender:
 
 
     def read_DB(self, flag):
-        self.data=pd.DataFrame(columns=['username', 'chickenID', 'rating'])
         if flag == 0 :
             for values in Ranking.objects.all():
                 a = pd.DataFrame(data=[[values.username, values.chickenID, values.rate]],columns=['username', 'chickenID', 'rating'])
-                self.data = self.data.append(a)
-                self.data = self.data.reset_index(drop=True)
-                self.data = self.data.drop_duplicates(keep='first')
+                self.DBdata = self.DBdata.append(a)
+                self.DBdata = self.DBdata.reset_index(drop=True)
+                self.DBdata = self.DBdata.drop_duplicates(keep='first')
         else:
             value = Ranking.objects.last()
             a = pd.DataFrame(data=[[value.username, value.chickenID, value.rate]],columns=['username', 'chickenID', 'rating'])
-            self.data = self.data.append(a)
-            self.data = self.data.reset_index(drop=True)
-            self.data = self.data.drop_duplicates(keep='first')
+            self.DBdata = self.DBdata.append(a)
+            self.DBdata = self.DBdata.reset_index(drop=True)
+            self.DBdata = self.DBdata.drop_duplicates(keep='first')
 
-        print(self.data.tail())
+        print(self.DBdata.tail())
 
-        self.df = self.data[['username', 'chickenID', 'rating']]
+        self.df = self.DBdata[['username', 'chickenID', 'rating']]
 
         def recur_dictify(frame):
             if len(frame.columns) == 1:
@@ -149,7 +146,13 @@ class Recommender:
         self.df_to_dict = recur_dictify(self.df)
 
         for user_key in self.df_to_dict:
-            self.name_list.append(user_key)
+            if flag == 0:
+                self.name_list.append(user_key)
+            else:
+                try:
+                    self.name_list.index(user_key)
+                except ValueError:
+                    self.name_list.append(user_key)
 
             for chk_key in self.df_to_dict[user_key]:
                 self.chk_set.add(chk_key)
