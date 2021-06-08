@@ -24,5 +24,5 @@ urllib3==1.25.6
 wrapt==1.11.2
 xlrd==1.2.0
 pandas==0.25.3
-pillow==6.2.1
+pillow==8.2.0
 jsonfield==2.0.2
